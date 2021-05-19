@@ -1,0 +1,18 @@
+BACKLOG su dove sono rimasto
+Se voi riuscite a capire il problema tanto di guadagnato
+
+Al momento l'applicazione parte ma va in errore il servizio enigmi perché a tempo d'esecuzione Spring Boot non trova una dipendenza necessaria all'autowiring. La build di gradle va bene invece
+A primo occhio sembrerebbe che ci sia tutto il necessario
+
+
+Di seguito un parziale dell'errore riportato
+
+Field domainEventPublisher in asw.sfingegram.enigmi.domain.EnigmiService required a bean of type 'asw.sfingegram.enigmi.domain.EnigmaDomainEventPublisher' that could not be found.
+
+The injection point has the following annotations:
+        - @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'asw.sfingegram.enigmi.domain.EnigmaDomainEventPublisher' in your configuration.

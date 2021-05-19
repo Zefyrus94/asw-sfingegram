@@ -1,6 +1,7 @@
 package asw.sfingegram.enigmi.domain;
 
-import asw.sfingegram.common.api.event.*; //rivedi DomainEvent
+import asw.sfingegram.common.api.event.DomainEvent; //rivedi DomainEvent
+import asw.sfingegram.common.api.event.EnigmaCreatedEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
