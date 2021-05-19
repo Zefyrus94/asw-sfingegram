@@ -1,3 +1,11 @@
+//altrimenti errore
+/*asw-sfingegram\sfingegram-common-api-event\src\main\java\asw\sfingegram\common\api\event\EnigmaCreatedEvent.java:5: error: package lombok does not exist
+import lombok.AllArgsConstructor;
+*/
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.12'
+	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+	}
 jar {
     enabled = true
 }

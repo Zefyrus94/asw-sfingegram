@@ -1,4 +1,4 @@
-package asw.sfingegram.enigmiservice.api.event;
+package asw.sfingegram.enigmaservice.api.event;
 
 import asw.sfingegram.common.api.event.DomainEvent; 
 

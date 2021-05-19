@@ -1,3 +1,5 @@
+//o fallisce la build di gradle
+include 'sfingegram-common-api-event'
 include 'enigmi'
 include 'connessioni'
 include 'enigmi-seguiti'
