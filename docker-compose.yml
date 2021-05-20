@@ -5,6 +5,8 @@ services:
     ports:
       - "2181:2181"
   kafka:
+    #Couldn't resolve server kafka:9092 from bootstrap.servers as DNS resolution failed for kafka
+    container_name: "kafka"
     image: wurstmeister/kafka:latest
     depends_on:
       - "zookeeper"
@@ -12,6 +14,7 @@ services:
       - "9092:9092"
 #      - "9094:9094"
     environment:
+      #KAFKA_ADVERTISED_HOST_NAME: localhost ()#kafka:9092
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-service-event-channel:1:1"

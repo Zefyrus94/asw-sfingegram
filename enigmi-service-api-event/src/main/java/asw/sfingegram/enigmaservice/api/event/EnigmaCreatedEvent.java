@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnigmaCreatedEvent implements DomainEvent {
-
+	private String autore; 
 	private String tipo; 
 	private String titolo; 
-	private String testo; 
-	private String autore; 
-	private String soluzione; 
 }

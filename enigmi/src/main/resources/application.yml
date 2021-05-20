@@ -5,6 +5,7 @@ spring:
     name: enigmi
   cloud:
     consul:
+      #consul
       host: localhost
       port: 8500
       discovery: 
@@ -18,7 +19,22 @@ spring:
         queryPassing: true 
     loadbalancer: 
       ribbon.enabled: false 
-
+  kafka:
+    #kafka:9092,kafka
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
+      group-id: ${spring.application.name}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer     
 server: 
   port: ${PORT:${SERVER_PORT:0}}
 #  port: 8080

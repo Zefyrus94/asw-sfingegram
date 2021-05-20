@@ -1,11 +1,82 @@
 Errori da risolvere
-2021-05-20 10:07:18.725  INFO 27200 --- [o-auto-1-exec-7] c.s.enigmi.rest.EnigmiController         : REST CALL: createEnigma Il Valletto, Indovinello, Il mese di maggio, [Ratto trascorre, e a noi rose dispensa.], [Il topo]
-2021-05-20 10:07:18.727  INFO 27200 --- [o-auto-1-exec-7] c.s.e.e.EnigmaDomainEventPublisherImpl   : PUBLISHING EVENT: EnigmaCreatedEvent(autore=Il Valletto, tipo=Indovinello, titolo=Il mese di maggio) ON CHANNEL: enigma-service-event-channel
-2021-05-20 10:07:18.728 ERROR 27200 --- [o-auto-1-exec-7] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.kafka.common.errors.SerializationException: Can't convert value of class asw.sfingegram.common.api.event.EnigmaCreatedEvent to class org.apache.kafka.common.serialization.StringSerializer specified in value.serializer] with root cause
+2021-05-20 14:10:42.406  INFO 30800 --- [o-auto-1-exec-6] c.s.enigmi.rest.EnigmiController         : REST CALL: createEnigma Il Mancino, Indovinello, La nonna, [Lavora d'ago fino a mezzanotte, per aggiustare le mutande rotte.], [La bussola]
+2021-05-20 14:10:42.500  INFO 30800 --- [o-auto-1-exec-6] c.s.e.e.EnigmaDomainEventPublisherImpl   : PUBLISHING EVENT: EnigmaCreatedEvent(autore=Il Mancino, tipo=Indovinello, titolo=La nonna) ON CHANNEL: enigma-service-event-channel
+2021-05-20 14:10:42.541  INFO 30800 --- [o-auto-1-exec-6] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values:
+        acks = 1
+        batch.size = 16384
+        bootstrap.servers = [localhost:9092]
+        buffer.memory = 33554432
+        client.dns.lookup = use_all_dns_ips
+        client.id = producer-1
+        compression.type = none
+        connections.max.idle.ms = 540000
+        delivery.timeout.ms = 120000
+        enable.idempotence = false
+        interceptor.classes = []
+        internal.auto.downgrade.txn.commit = true
+        key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+        linger.ms = 0
+        max.block.ms = 60000
+        max.in.flight.requests.per.connection = 5
+        max.request.size = 1048576
+        metadata.max.age.ms = 300000
+        metadata.max.idle.ms = 300000
+        metric.reporters = []
+        metrics.num.samples = 2
+        metrics.recording.level = INFO
+        metrics.sample.window.ms = 30000
+        partitioner.class = class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+        receive.buffer.bytes = 32768
+        reconnect.backoff.max.ms = 1000
+        reconnect.backoff.ms = 50
+        request.timeout.ms = 30000
+        retries = 2147483647
+        retry.backoff.ms = 100
+        sasl.client.callback.handler.class = null
+        sasl.jaas.config = null
+        sasl.kerberos.kinit.cmd = /usr/bin/kinit
+        sasl.kerberos.min.time.before.relogin = 60000
+        sasl.kerberos.service.name = null
+        sasl.kerberos.ticket.renew.jitter = 0.05
+        sasl.kerberos.ticket.renew.window.factor = 0.8
+        sasl.login.callback.handler.class = null
+        sasl.login.class = null
+        sasl.login.refresh.buffer.seconds = 300
+        sasl.login.refresh.min.period.seconds = 60
+        sasl.login.refresh.window.factor = 0.8
+        sasl.login.refresh.window.jitter = 0.05
+        sasl.mechanism = GSSAPI
+        security.protocol = PLAINTEXT
+        security.providers = null
+        send.buffer.bytes = 131072
+        ssl.cipher.suites = null
+        ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+        ssl.endpoint.identification.algorithm = https
+        ssl.engine.factory.class = null
+        ssl.key.password = null
+        ssl.keymanager.algorithm = SunX509
+        ssl.keystore.location = null
+        ssl.keystore.password = null
+        ssl.keystore.type = JKS
+        ssl.protocol = TLSv1.3
+        ssl.provider = null
+        ssl.secure.random.implementation = null
+        ssl.trustmanager.algorithm = PKIX
+        ssl.truststore.location = null
+        ssl.truststore.password = null
+        ssl.truststore.type = JKS
+        transaction.timeout.ms = 60000
+        transactional.id = null
+        value.serializer = class org.apache.kafka.common.serialization.StringSerializer
+
+2021-05-20 14:10:42.617  INFO 30800 --- [o-auto-1-exec-6] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.6.0
+2021-05-20 14:10:42.617  INFO 30800 --- [o-auto-1-exec-6] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 62abe01bee039651
+2021-05-20 14:10:42.617  INFO 30800 --- [o-auto-1-exec-6] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1621512642614
+2021-05-20 14:10:42.952  INFO 30800 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: qogKgRYJSje_gtLo2L6pow
+2021-05-20 14:10:42.957 ERROR 30800 --- [o-auto-1-exec-6] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.kafka.common.errors.SerializationException: Can't convert value of class asw.sfingegram.common.api.event.EnigmaCreatedEvent to class org.apache.kafka.common.serialization.StringSerializer specified in value.serializer] with root cause
 
 java.lang.ClassCastException: class asw.sfingegram.common.api.event.EnigmaCreatedEvent cannot be cast to class java.lang.String (asw.sfingegram.common.api.event.EnigmaCreatedEvent is in unnamed module of loader org.springframework.boot.loader.LaunchedURLClassLoader @2b98378d; java.lang.String is in module java.base of loader 'bootstrap')
-        at org.apache.kafka.common.serialization.StringSerializer.serialize(StringSerializer.java:28) ~[kafka-clients-2.6.0.jar!/:na]
-        at org.apache.kafka.common.serialization.Serializer.serialize(Serializer.java:62) ~[kafka-clients-2.6.0.jar!/:na]
+        at org.apache.kafka.common.serialization.StringSerializer.serialize(StringSerializer.java:28) 
 
 
 Codice da realizzare (in ordine)
