@@ -3,7 +3,6 @@ services:
   consul:
     container_name: "asw-consul"
     image: consul
-    #hostname: localhost
     hostname: consul
     ports:
       - "8500:8500"
@@ -21,7 +20,6 @@ services:
       - "9092:9092"
 #      - "9094:9094"
     environment:
-      #KAFKA_ADVERTISED_HOST_NAME: localhost ()#kafka:9092
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-service-event-channel:1:1"
