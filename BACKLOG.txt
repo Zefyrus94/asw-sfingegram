@@ -1,3 +1,5 @@
+
+
 Errori da risolvere
 [21/05/2021] nessuno
 
@@ -9,3 +11,6 @@ Codice da realizzare
 
 Codice realizzato
 Rendere il servizio applicativo eseguibile come container docker con docker-compose
+
+Esecuzione
+docker-compose up -d
