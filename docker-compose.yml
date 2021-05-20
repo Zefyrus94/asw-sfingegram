@@ -1,5 +1,12 @@
 version: '3'
 services:
+  consul:
+    container_name: "asw-consul"
+    image: consul
+    #hostname: localhost
+    hostname: consul
+    ports:
+      - "8500:8500"
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -15,7 +22,7 @@ services:
 #      - "9094:9094"
     environment:
       #KAFKA_ADVERTISED_HOST_NAME: localhost ()#kafka:9092
-      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-service-event-channel:1:1"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -31,3 +38,25 @@ services:
 #      LOG4J_LOGGER_KAFKA_AUTHORIZER_LOGGER: DEBUG
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  enigmi:
+    build: ./enigmi
+    image: enigmi-service
+    depends_on:
+      - consul  
+  connessioni:
+    build: ./connessioni
+    image: connessioni-service
+    depends_on:
+      - consul  
+  enigmi-seguiti:
+    build: ./enigmi-seguiti
+    image: enigmi-seguiti-service
+    depends_on:
+      - consul  
+  apigateway:
+    build: ./api-gateway
+    image: api-gateway-service
+    ports:
+    - "8080:8080"
+    depends_on:
+      - consul

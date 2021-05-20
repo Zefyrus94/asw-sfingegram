@@ -5,7 +5,8 @@ spring:
     name: apigateway
   cloud:
     consul:
-      host: localhost
+      #localhost
+      host: consul
       port: 8500
       discovery: 
         instanceId: ${spring.application.name}-${spring.cloud.client.hostname}-${random.value}
@@ -45,21 +46,6 @@ spring:
         - Path=/connessioni/**
         filters:
         - StripPrefix=1
-    kafka:
-      bootstrap-servers: localhost:9092
-      consumer:
-        auto-offset-reset: earliest
-        group-id: ${spring.application.name}
-        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-        properties:
-          spring:
-            json:
-              trusted:
-                packages: '*'
-        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      producer:
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer  
 server: 
 #  port: ${PORT:${SERVER_PORT:0}}
   port: 8080
