@@ -1,18 +1,17 @@
-BACKLOG su dove sono rimasto
-Se voi riuscite a capire il problema tanto di guadagnato
+Errori da risolvere
+2021-05-20 10:07:18.725  INFO 27200 --- [o-auto-1-exec-7] c.s.enigmi.rest.EnigmiController         : REST CALL: createEnigma Il Valletto, Indovinello, Il mese di maggio, [Ratto trascorre, e a noi rose dispensa.], [Il topo]
+2021-05-20 10:07:18.727  INFO 27200 --- [o-auto-1-exec-7] c.s.e.e.EnigmaDomainEventPublisherImpl   : PUBLISHING EVENT: EnigmaCreatedEvent(autore=Il Valletto, tipo=Indovinello, titolo=Il mese di maggio) ON CHANNEL: enigma-service-event-channel
+2021-05-20 10:07:18.728 ERROR 27200 --- [o-auto-1-exec-7] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.apache.kafka.common.errors.SerializationException: Can't convert value of class asw.sfingegram.common.api.event.EnigmaCreatedEvent to class org.apache.kafka.common.serialization.StringSerializer specified in value.serializer] with root cause
 
-Al momento l'applicazione parte ma va in errore il servizio enigmi perché a tempo d'esecuzione Spring Boot non trova una dipendenza necessaria all'autowiring. La build di gradle va bene invece
-A primo occhio sembrerebbe che ci sia tutto il necessario
-
-
-Di seguito un parziale dell'errore riportato
-
-Field domainEventPublisher in asw.sfingegram.enigmi.domain.EnigmiService required a bean of type 'asw.sfingegram.enigmi.domain.EnigmaDomainEventPublisher' that could not be found.
-
-The injection point has the following annotations:
-        - @org.springframework.beans.factory.annotation.Autowired(required=true)
+java.lang.ClassCastException: class asw.sfingegram.common.api.event.EnigmaCreatedEvent cannot be cast to class java.lang.String (asw.sfingegram.common.api.event.EnigmaCreatedEvent is in unnamed module of loader org.springframework.boot.loader.LaunchedURLClassLoader @2b98378d; java.lang.String is in module java.base of loader 'bootstrap')
+        at org.apache.kafka.common.serialization.StringSerializer.serialize(StringSerializer.java:28) ~[kafka-clients-2.6.0.jar!/:na]
+        at org.apache.kafka.common.serialization.Serializer.serialize(Serializer.java:62) ~[kafka-clients-2.6.0.jar!/:na]
 
 
-Action:
-
-Consider defining a bean of type 'asw.sfingegram.enigmi.domain.EnigmaDomainEventPublisher' in your configuration.
+Codice da realizzare (in ordine)
+1. Pubblicazione canale eventi creati,connessioniConAutori e connessioniConTipo
+2. rendere il servizio applicativo eseguibile come container docker
+3. creare un container per la base di dati
+4. comporre il tutto con docker-compose
+5. replicare i servizi
+6. kubernetes
