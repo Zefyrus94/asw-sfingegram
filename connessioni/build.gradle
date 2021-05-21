@@ -12,7 +12,6 @@ dependencyManagement {
 dependencies {
 	//senza di questa gradle build fallisce nel cercare i package necessari per i domain event
 	implementation project(":sfingegram-common-api-event")
-	implementation project(":enigmi-service-api-event")
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter'
 	implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
