@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 import java.util.*; 
 import java.util.stream.*; 
 
-import asw.sfingegram.common.api.event.DomainEvent; //rivedi DomainEvent
-import asw.sfingegram.common.api.event.EnigmaCreatedEvent;
+import asw.sfingegram.common.api.event.DomainEvent;
+import asw.sfingegram.enigmaservice.api.event.EnigmaCreatedEvent;
 @Service
 public class EnigmiService {
 
@@ -24,7 +24,8 @@ public class EnigmiService {
  	public Enigma createEnigma(String autore, String tipo, String titolo, String[] testo, String[] soluzione) {
 		Enigma enigma = new Enigma(autore, tipo, titolo, testo, soluzione); 
 		enigma = enigmiRepository.save(enigma);
-		DomainEvent event = new EnigmaCreatedEvent(enigma.getAutore(), enigma.getTipo(), enigma.getTitolo());
+		//eccezione serializzazione testo
+		DomainEvent event = new EnigmaCreatedEvent(enigma.getAutore(), enigma.getTipo(), enigma.getTitolo(), enigma.getTesto());
 		domainEventPublisher.publish(event);
 		return enigma;
 	}
