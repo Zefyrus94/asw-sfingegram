@@ -1,0 +1,10 @@
+dependencies {
+	implementation project(":sfingegram-common-api-event")
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+jar {
+    enabled = true
+}
+
