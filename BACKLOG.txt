@@ -1,11 +1,13 @@
-
-
 Errori da risolvere
-[21/05/2021] nessuno
+[21/05/2021] PostgreSQL Database directory appears to contain a database.
+Sto cercando di capire perché le esecuzioni successive del mio container non richiamano gli script di creazione base di dati
+
+Codice in corso (Giacomo)
+Configurazione postgres
 
 Codice da realizzare
-1. Pubblicazione canale eventi creati,connessioniConAutori e connessioniConTipo
-2. creare un container per la base di dati
+1. publish/subscribe canale eventi creati,connessioniConAutori e connessioniConTipo (la parte publish degli eventi è già fatta)
+2. [in corso] creare un container per la base di dati
 3. replicare i servizi
 4. kubernetes
 
