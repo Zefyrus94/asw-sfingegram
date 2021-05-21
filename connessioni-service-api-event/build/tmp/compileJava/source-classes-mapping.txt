@@ -1,0 +1,8 @@
+asw/sfingegram/connessioniservice/api/event/ConnessioneConAutoreCreatedEvent.java
+ asw.sfingegram.connessioniservice.api.event.ConnessioneConAutoreCreatedEvent
+asw/sfingegram/connessioniservice/api/event/ConnessioneConTipoCreatedEvent.java
+ asw.sfingegram.connessioniservice.api.event.ConnessioneConTipoCreatedEvent
+asw/sfingegram/connessioniservice/api/event/ConnessioneConTipoServiceEventChannel.java
+ asw.sfingegram.connessioniservice.api.event.ConnessioneConTipoServiceEventChannel
+asw/sfingegram/connessioniservice/api/event/ConnessioneConAutoreServiceEventChannel.java
+ asw.sfingegram.connessioniservice.api.event.ConnessioneConAutoreServiceEventChannel

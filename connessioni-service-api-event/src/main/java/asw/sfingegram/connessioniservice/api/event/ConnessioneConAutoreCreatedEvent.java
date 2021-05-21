@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConnessioneConAutoreCreatedEvent implements DomainEvent(){
+public class ConnessioneConAutoreCreatedEvent implements DomainEvent{
     private String utente;
     private String autore;
 }

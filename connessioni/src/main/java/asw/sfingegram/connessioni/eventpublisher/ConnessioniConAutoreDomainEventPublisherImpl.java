@@ -1,7 +1,7 @@
 package asw.sfingegram.connessioni.eventpublisher;
 
 import asw.sfingegram.common.api.event.DomainEvent;
-import asw.sfingegram.connessioniservice.api.event.ConnessioneConAutoreServiceChannel;
+import asw.sfingegram.connessioniservice.api.event.ConnessioneConAutoreServiceEventChannel;
 import asw.sfingegram.connessioni.domain.ConnessioneConAutoreDomainEventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,12 +15,12 @@ import java.util.logging.Logger;
 @Component
 public class ConnessioniConAutoreDomainEventPublisherImpl implements ConnessioneConAutoreDomainEventPublisher {
 
-    private final Logger logger = Logger.getLogger(ConnessioniDomainEventPublisherImpl.class.toString());
+    private final Logger logger = Logger.getLogger(ConnessioniConAutoreDomainEventPublisherImpl.class.toString());
 
     @Autowired
     private KafkaTemplate<String, DomainEvent> template;
 
-    private String channel = ConnessioneConAutoreServiceChannel.channel;
+    private String channel = ConnessioneConAutoreServiceEventChannel.channel;
 
     @Override
     public void publish(DomainEvent event) {

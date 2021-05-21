@@ -1,4 +1,5 @@
 package asw.sfingegram.connessioni.domain;
+
 import asw.sfingegram.common.api.event.DomainEvent;
 
 public interface ConnessioneConAutoreDomainEventPublisher {

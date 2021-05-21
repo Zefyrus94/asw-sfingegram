@@ -40,8 +40,8 @@ public class ConnessioniService {
  	public ConnessioneConTipo createConnessioneConTipo(String utente, String tipo) {
 		ConnessioneConTipo connessione = new ConnessioneConTipo(utente, tipo); 
 		connessione = connessioniConTipiRepository.save(connessione);
-		DomainEvent event = new ConnessioneConTipoCreatedEvent(connessione.getUtente(), connessione.getAutore());
-		connessioniConTipoEventPublisherPublisher.publish(event);
+		DomainEvent event = new ConnessioneConTipoCreatedEvent(connessione.getUtente(), connessione.getTipo());
+		connessioniConTipoEventPublisher.publish(event);
 		return connessione;
 	}
 
