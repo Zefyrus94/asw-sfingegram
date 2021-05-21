@@ -1,9 +1,12 @@
 Errori da risolvere
-[21/05/2021] PostgreSQL Database directory appears to contain a database.
-Sto cercando di capire perché le esecuzioni successive del mio container non richiamano gli script di creazione base di dati
+[21/05/2021] PostgreSQL salvataggio persistente.
+Postgres non sembra salvare i dati in tabella, gli arrivano le richieste di salvataggio?
 
-Codice in corso (Giacomo)
-Configurazione postgres
+Iterazioni
+- (Giacomo e Michele)
+Configurazione postgres + salvataggio in tabella
+- (Daniele e Riccardo)
+enigmi listener: leggere i messaggi EnigmaCreatedEvent di kafka (stesso gruppo)
 
 Codice da realizzare
 1. publish/subscribe canale eventi creati,connessioniConAutori e connessioniConTipo (la parte publish degli eventi è già fatta)
@@ -16,3 +19,6 @@ Rendere il servizio applicativo eseguibile come container docker con docker-comp
 
 Esecuzione
 docker-compose up -d
+
+Altri comandi
+psql --host=database --username=postgres --dbname=sfingegram

@@ -223,3 +223,5 @@ https://medium.com/analytics-vidhya/getting-started-with-postgresql-using-docker
 
 https://graspingtech.com/docker-compose-postgresql/
 https://stackoverflow.com/questions/59715622/docker-compose-and-create-db-in-postgres-on-init
+
+https://dzone.com/articles/spring-boot-and-postgresql
