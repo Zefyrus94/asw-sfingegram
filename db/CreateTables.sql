@@ -5,3 +5,13 @@ CREATE TABLE enigmi (
     autore text NOT NULL,
     soluzione text
 );
+
+CREATE TABLE connessione_con_autore (
+    utente text NOT NULL,
+    autore text NOT NULL
+);
+
+CREATE TABLE connessione_con_tipo (
+    utente text NOT NULL,
+    tipo text NOT NULL
+);
