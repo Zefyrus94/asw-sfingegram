@@ -1,18 +1,42 @@
 version: '3'
 volumes:
-  database-data: # named volumes can be managed easier using docker-compose
+  database-enigmi:
+  database-connessioni:
+  database-enigmiseguiti: # named volumes can be managed easier using docker-compose
 services:
-  database:
-    container_name: "postgres"
+  database_1:
+    container_name: "postgres_enigmi"
     image: "postgres" # use latest official postgres version
     env_file:
-      - database.env # configure postgres
+      - init_db_sfingegram_enigmi.env # configure postgres
     volumes:
       #docker volume inspect database-data
-      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
-      - ./db:/docker-entrypoint-initdb.d/
+      - database-enigmi:/var/lib/postgresql/data/ # persist data even if container shuts down
+#      - ./db:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
+  database_2:
+    container_name: "postgres_connessioni"
+    image: "postgres" # use latest official postgres version
+    env_file:
+      - init_db_sfingegram_connessioni.env # configure postgres
+    volumes:
+      #docker volume inspect database-data
+      - database-connessioni:/var/lib/postgresql/data/ # persist data even if container shuts down
+#      - ./db:/docker-entrypoint-initdb.d/
+    ports:
+      - 5433:5432
+  database_3:
+    container_name: "postgres_enigsmiseguiti"
+    image: "postgres" # use latest official postgres version
+    env_file:
+      - init_db_sfingegram_enigmiseguiti.env # configure postgres
+    volumes:
+      #docker volume inspect database-data
+      - database-enigmiseguiti:/var/lib/postgresql/data/ # persist data even if container shuts down
+#      - ./db:/docker-entrypoint-initdb.d/
+    ports:
+      - 5434:5432
   consul:
     container_name: "asw-consul"
     image: consul
@@ -35,7 +59,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-service-event-channel:1:1"
+      KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-con-autore-service-event-channel:1:1,connessione-con-tipo-service-event-channel:1:1"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 #      KAFKA_CREATE_TOPICS: "consumer-service-channel:1:1,restaurant-service-channel:1:1,order-service-channel:1:1"
 #      # HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"

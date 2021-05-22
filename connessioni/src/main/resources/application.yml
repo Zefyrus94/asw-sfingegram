@@ -17,8 +17,36 @@ spring:
         # consul deve restituire solo servizi che passano l'health check (default=false) 
         queryPassing: true 
     loadbalancer: 
-      ribbon.enabled: false 
+      ribbon.enabled: false
 
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      auto-offset-reset: earliest
+      group-id: ${spring.application.name}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  datasource:
+    username: postgres
+    password: postgres
+    platform: postgres
+    url: jdbc:postgresql://postgres_connessioni:5432/sfingegram-connessioni
+  jpa:
+    database: POSTGRESQL
+    #generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
 server: 
   port: ${PORT:${SERVER_PORT:0}}
 #  port: 8080

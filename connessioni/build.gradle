@@ -10,6 +10,9 @@ dependencyManagement {
 }
 
 dependencies {
+	//senza di questa gradle build fallisce nel cercare i package necessari per i domain event
+	implementation project(":sfingegram-common-api-event")
+	implementation project(":connessioni-service-api-event")
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter'
 	implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
@@ -20,7 +23,12 @@ dependencies {
 
 	implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
 
+	implementation 'org.springframework.kafka:spring-kafka'
+
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.hsqldb:hsqldb'
+	implementation 'org.postgresql:postgresql'
+
+//	implementation 'org.hsqldb:hsqldb'
 
 }

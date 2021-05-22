@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.logging.Logger; 
-import java.util.*; 
+import java.util.*;
+
+import asw.sfingegram.common.api.event.DomainEvent;
+import asw.sfingegram.connessioniservice.api.event.ConnessioneConAutoreCreatedEvent;
+import asw.sfingegram.connessioniservice.api.event.ConnessioneConTipoCreatedEvent;
+
 
 @Service
 public class ConnessioniService {
@@ -15,17 +20,28 @@ public class ConnessioniService {
 	private ConnessioniConAutoriRepository connessioniConAutoriRepository;
 
 	@Autowired
+	private ConnessioneConAutoreDomainEventPublisher connessioniConAutoreEventPublisher;
+
+	@Autowired
 	private ConnessioniConTipiRepository connessioniConTipiRepository;
 
- 	public ConnessioneConAutore createConnessioneConAutore(String utente, String autore) {
+	@Autowired
+	private ConnessioneConTipoDomainEventPublisher connessioniConTipoEventPublisher;
+
+
+	public ConnessioneConAutore createConnessioneConAutore(String utente, String autore) {
 		ConnessioneConAutore connessione = new ConnessioneConAutore(utente, autore); 
 		connessione = connessioniConAutoriRepository.save(connessione);
+		DomainEvent event = new ConnessioneConAutoreCreatedEvent(connessione.getUtente(), connessione.getAutore());
+		connessioniConAutoreEventPublisher.publish(event);
 		return connessione;
 	}
 
  	public ConnessioneConTipo createConnessioneConTipo(String utente, String tipo) {
 		ConnessioneConTipo connessione = new ConnessioneConTipo(utente, tipo); 
 		connessione = connessioniConTipiRepository.save(connessione);
+		DomainEvent event = new ConnessioneConTipoCreatedEvent(connessione.getUtente(), connessione.getTipo());
+		connessioniConTipoEventPublisher.publish(event);
 		return connessione;
 	}
 
