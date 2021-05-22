@@ -25,7 +25,8 @@ public class EnigmiService {
 		Enigma enigma = new Enigma(autore, tipo, titolo, testo, soluzione); 
 		enigma = enigmiRepository.save(enigma);
 		//eccezione serializzazione testo
-		DomainEvent event = new EnigmaCreatedEvent(enigma.getAutore(), enigma.getTipo(), enigma.getTitolo(), enigma.getTesto());
+		DomainEvent event = new EnigmaCreatedEvent(enigma.getAutore(), enigma.getTipo(), enigma.getTitolo(), Arrays.toString(enigma.getTesto()));
+		
 		domainEventPublisher.publish(event);
 		return enigma;
 	}
