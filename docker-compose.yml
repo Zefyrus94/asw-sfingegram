@@ -35,7 +35,7 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-service-event-channel:1:1"
+      KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-con-autore-service-event-channel:1:1,connessione-con-tipo-service-event-channel:1:1"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 #      KAFKA_CREATE_TOPICS: "consumer-service-channel:1:1,restaurant-service-channel:1:1,order-service-channel:1:1"
 #      # HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"

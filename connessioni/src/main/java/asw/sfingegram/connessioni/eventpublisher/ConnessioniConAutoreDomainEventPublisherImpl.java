@@ -25,7 +25,7 @@ public class ConnessioniConAutoreDomainEventPublisherImpl implements Connessione
     @Override
     public void publish(DomainEvent event) {
         logger.info("PUBLISHING EVENT: " + event.toString() + " ON CHANNEL: " + channel);
-        template.send(channel, event);
+            template.send(channel, event);
         // template.flush();
     }
 }
