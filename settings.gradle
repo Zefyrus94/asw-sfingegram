@@ -6,5 +6,5 @@ include 'enigmi'
 include 'connessioni'
 include 'enigmi-seguiti'
 include 'api-gateway'
-
+include "enigmi-seguiti-event-listener"
 rootProject.name = 'asw-sfingegram'
