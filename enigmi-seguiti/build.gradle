@@ -10,6 +10,10 @@ dependencyManagement {
 }
 
 dependencies {
+	//per gli eventi di kafka
+	implementation project(":sfingegram-common-api-event")
+	implementation project(":enigmi-service-api-event")//??
+	//
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux' 
 	implementation 'org.springframework.cloud:spring-cloud-starter'
@@ -17,6 +21,9 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-loadbalancer'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+	//kafka
+	implementation 'org.springframework.kafka:spring-kafka'
+	//
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 

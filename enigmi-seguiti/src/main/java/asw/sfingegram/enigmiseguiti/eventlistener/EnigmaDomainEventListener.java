@@ -3,7 +3,7 @@ package asw.sfingegram.enigmiseguiti.eventlistener;
 import asw.sfingegram.common.api.event.DomainEvent; 
 import asw.sfingegram.enigmaservice.api.event.*; 
 
-import asw.sfingegram.enigmiservice.client.domain.EnigmaDomainEventConsumer;
+//import asw.sfingegram.enigmiservice.client.domain.EnigmaDomainEventConsumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;

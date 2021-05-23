@@ -2,9 +2,11 @@
 include 'sfingegram-common-api-event'
 include 'connessioni-service-api-event'
 include 'enigmi-service-api-event'
+//servizi applicativi
 include 'enigmi'
 include 'connessioni'
 include 'enigmi-seguiti'
 include 'api-gateway'
+//servizi di supporto
 include "enigmi-seguiti-event-listener"
 rootProject.name = 'asw-sfingegram'
