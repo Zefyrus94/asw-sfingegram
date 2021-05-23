@@ -17,10 +17,10 @@ public class Enigma implements Comparable<Enigma> {
 	private String autore; 
 	private String tipo; 
 	private String titolo; 
-	private String[] testo; 
+	private String/*[]*/ testo; 
 	//private String[] soluzione; 
 	
-	public Enigma(String autore, String tipo, String titolo, String[] testo) {
+	public Enigma(String autore, String tipo, String titolo, String/*[]*/ testo) {
 		this(); 
 		this.autore = autore; 
 		this.tipo = tipo; 

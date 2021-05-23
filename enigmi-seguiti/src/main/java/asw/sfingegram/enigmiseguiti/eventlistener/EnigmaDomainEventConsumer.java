@@ -4,6 +4,13 @@ import asw.sfingegram.enigmaservice.api.event.*;
 import asw.sfingegram.enigmiseguiti.domain.*;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;//?
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;//?
+
+import java.util.logging.Logger; 
+import java.util.*; 
+import java.util.stream.*; 
 
 import java.util.logging.*;
 
@@ -27,7 +34,7 @@ public class EnigmaDomainEventConsumer {
 	//salva sul database l'enigma che hai pescato dal canale kafka
 	private void enigmaCreated(EnigmaCreatedEvent event) {
 		Enigma enigma = new Enigma(event.getAutore(), event.getTipo(), event.getTitolo(),event.getTesto());
-		enigmaRepository.save(enigma);
+		enigmiRepository.save(enigma);
 		logger.info("CREATED ENIGMA: " + enigma);
 	}
 
