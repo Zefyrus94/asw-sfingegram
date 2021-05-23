@@ -9,6 +9,10 @@ docker container restart my-postgres
 docker volume ls -f dangling=tru
 #elimina i volumi non utilizzati da almeno un container
 docker volume prune
+#elimina le immagini che matchano un pattern
+docker rmi $(docker images | grep '.*service')
+
+
 
 winpty docker exec -it 109b8ee2a729 bash
 psql --host=database --username=postgres --dbname=sfingegram

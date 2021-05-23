@@ -15,9 +15,9 @@ public class EnigmaDomainEventConsumer {
 		if (event.getClass().equals(EnigmaCreatedEvent.class)) {
 			EnigmaCreatedEvent ece = (EnigmaCreatedEvent) event;
 			enigmaCreated(ece); 
-//			Restaurant restaurant = new Restaurant(rce.getId(), rce.getName(), rce.getLocation());
-//			logger.info("CREATED RESTAURANT: " + restaurant);
-		} else {
+			logger.info("ricevuto evento: " + event);
+		}
+		else {
 			logger.info("UNKNOWN EVENT: " + event);			
 		}
 	}

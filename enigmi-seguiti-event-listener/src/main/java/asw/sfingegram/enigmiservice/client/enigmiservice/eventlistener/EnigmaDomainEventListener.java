@@ -1,4 +1,4 @@
-package asw.sfingegram.restaurantservice.client.restaurantservice.eventlistener;
+package asw.sfingegram.enigmiservice.client.enigmiservice.eventlistener;
 
 import asw.sfingegram.common.api.event.DomainEvent; 
 import asw.sfingegram.enigmaservice.api.event.*; 
