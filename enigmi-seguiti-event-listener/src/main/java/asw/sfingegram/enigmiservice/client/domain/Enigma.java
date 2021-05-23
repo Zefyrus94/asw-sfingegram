@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor @AllArgsConstructor
 public class Enigma {
 
-	private Long id; 
+	//private Long id; 
 	private String autore; 
 	private String tipo; 
 	private String titolo; 

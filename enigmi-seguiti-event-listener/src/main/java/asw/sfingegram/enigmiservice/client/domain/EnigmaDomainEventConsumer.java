@@ -1,5 +1,4 @@
 package asw.sfingegram.enigmiservice.client.domain;
-
 import asw.sfingegram.common.api.event.DomainEvent; 
 import asw.sfingegram.enigmaservice.api.event.*; 
 
@@ -24,7 +23,8 @@ public class EnigmaDomainEventConsumer {
 	}
 	
 	private void enigmaCreated(EnigmaCreatedEvent event) {
-		Enigma enigma = new Enigma(event.getId(), event.getAutore(), event.getTipo(), event.getTitolo());
+		Enigma enigma = new Enigma(event.getAutore(), event.getTipo(), event.getTitolo(),event.getTesto());
+		//enigmaRepository.save(enigma);
 		logger.info("CREATED ENIGMA: " + enigma);
 	}
 
