@@ -48,18 +48,19 @@ public class ConnessioneDomainEventConsumer {
 		connessioniAutoriRepository.save(connessione);
 
 		Collection<Enigma> enigmiDiAutore =  enigmiRepository.findByAutore(event.getAutore());
-		if(enigmiDiAutore.size()>0){
-			List<EnigmaSeguito> enigmiSeguiti = new ArrayList<>();
-			for (Enigma en : enigmiDiAutore) {
+		// if(enigmiDiAutore.size()>0){
+		// 	List<EnigmaSeguito> enigmiSeguiti = new ArrayList<>();
+		// 	for (Enigma en : enigmiDiAutore) {
 
-				EnigmaSeguito es = new EnigmaSeguito(en,event.getUtente());
+		// 		EnigmaSeguito es = new EnigmaSeguito(en,event.getUtente());
 
-				enigmiSeguiti.add(es);
-			}
-			logger.info("CREATED ENIGMI_SEGUITI TUPLES  from AUTORE: ");
-			logger.info(enigmiSeguiti.toString());
-			enigmiSeguitiRepository.saveAll(enigmiSeguiti);
-		}
+		// 		enigmiSeguiti.add(es);
+		// 	}
+		// 	logger.info("CREATED ENIGMI_SEGUITI TUPLES  from AUTORE: ");
+		// 	logger.info(enigmiSeguiti.toString());
+		// 	enigmiSeguitiRepository.saveAll(enigmiSeguiti);
+		// }
+		saveUtenteEnigmi(enigmiDiAutore, event.getUtente());
 		logger.info("CREATED CONNESSIONE_AUTORE: " + connessione);
 	}
 
@@ -68,20 +69,29 @@ public class ConnessioneDomainEventConsumer {
 		connessioniTipiRepository.save(connessione);
 
 		Collection<Enigma> enigmiDiTipo =  enigmiRepository.findByTipo(event.getTipo());
-		if(enigmiDiTipo.size()>0){
-			List<EnigmaSeguito> enigmiSeguiti = new ArrayList<>();
-			for (Enigma en : enigmiDiTipo) {
 
-				EnigmaSeguito es = new EnigmaSeguito(en,event.getUtente());
+		logger.info(enigmiDiTipo.toString());
 
-				enigmiSeguiti.add(es);
-			}
-			logger.info("CREATED ENIGMI_SEGUITI TUPLES from TIPO: ");
-			logger.info(enigmiSeguiti.toString());
-			enigmiSeguitiRepository.saveAll(enigmiSeguiti);
-		}
+		saveUtenteEnigmi(enigmiDiTipo, event.getUtente());
+
 		logger.info("CREATED CONNESSIONE_AUTORE: " + connessione);
 
 		logger.info("CREATED CONNESSIONE_TIPO: " + connessione);
+	}
+
+
+	private void saveUtenteEnigmi(Collection<Enigma> enigmi, String utente){
+		if(enigmi.size()>0){
+			List<EnigmaSeguito> enigmiSeguiti = new ArrayList<>();
+			for (Enigma en : enigmi) {
+
+				EnigmaSeguito es = new EnigmaSeguito(en,utente);
+
+				enigmiSeguiti.add(es);
+			}
+			logger.info("CREATED ENIGMI_SEGUITI: ");
+			logger.info(enigmiSeguiti.toString());
+			enigmiSeguitiRepository.saveAll(enigmiSeguiti);
+		}
 	}
 }
