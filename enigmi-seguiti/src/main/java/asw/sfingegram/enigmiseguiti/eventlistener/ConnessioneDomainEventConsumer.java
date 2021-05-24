@@ -20,14 +20,7 @@ public class ConnessioneDomainEventConsumer {
 	private ConnessioniConAutoriRepository connessioniAutoriRepository;
 	@Autowired
 	private ConnessioniConTipiRepository connessioniTipiRepository;
-<<<<<<< HEAD
 	
-=======
-	@Autowired
-	private EnigmiRepository enigmiRepository;
-	@Autowired
-	private EnigmiSeguitiRepository enigmiSeguitiRepository;
->>>>>>> e890f051646c61402128f0d2102e99b3351b10f1
 	
 	private final Logger logger = Logger.getLogger(ConnessioneDomainEventConsumer.class.toString());
 
@@ -50,7 +43,6 @@ public class ConnessioneDomainEventConsumer {
 	private void connessioneAutoreCreated(ConnessioneConAutoreCreatedEvent event) {
 		ConnessioneConAutore connessione = new ConnessioneConAutore(event.getUtente(), event.getAutore());
 		connessioniAutoriRepository.save(connessione);
-<<<<<<< HEAD
 		logger.info("CREATED CONNESSIONE_AUTORE: " + connessione);
 	}
 	private void connessioneTipoCreated(ConnessioneConTipoCreatedEvent event) {
@@ -58,54 +50,4 @@ public class ConnessioneDomainEventConsumer {
 		connessioniTipiRepository.save(connessione);
 		logger.info("CREATED CONNESSIONE_TIPO: " + connessione);
 	}
-=======
-
-		Collection<Enigma> enigmiDiAutore =  enigmiRepository.findByAutore(event.getAutore());
-		// if(enigmiDiAutore.size()>0){
-		// 	List<EnigmaSeguito> enigmiSeguiti = new ArrayList<>();
-		// 	for (Enigma en : enigmiDiAutore) {
-
-		// 		EnigmaSeguito es = new EnigmaSeguito(en,event.getUtente());
-
-		// 		enigmiSeguiti.add(es);
-		// 	}
-		// 	logger.info("CREATED ENIGMI_SEGUITI TUPLES  from AUTORE: ");
-		// 	logger.info(enigmiSeguiti.toString());
-		// 	enigmiSeguitiRepository.saveAll(enigmiSeguiti);
-		// }
-		saveUtenteEnigmi(enigmiDiAutore, event.getUtente());
-		logger.info("CREATED CONNESSIONE_AUTORE: " + connessione);
-	}
-
-	private void connessioneTipoCreated(ConnessioneConTipoCreatedEvent event) {
-		ConnessioneConTipo connessione = new ConnessioneConTipo(event.getUtente(), event.getTipo());
-		connessioniTipiRepository.save(connessione);
-
-		Collection<Enigma> enigmiDiTipo =  enigmiRepository.findByTipo(event.getTipo());
-
-		logger.info(enigmiDiTipo.toString());
-
-		saveUtenteEnigmi(enigmiDiTipo, event.getUtente());
-
-		logger.info("CREATED CONNESSIONE_AUTORE: " + connessione);
-
-		logger.info("CREATED CONNESSIONE_TIPO: " + connessione);
-	}
-
-
-	private void saveUtenteEnigmi(Collection<Enigma> enigmi, String utente){
-		if(enigmi.size()>0){
-			List<EnigmaSeguito> enigmiSeguiti = new ArrayList<>();
-			for (Enigma en : enigmi) {
-
-				EnigmaSeguito es = new EnigmaSeguito(en,utente);
-
-				enigmiSeguiti.add(es);
-			}
-			logger.info("CREATED ENIGMI_SEGUITI: ");
-			logger.info(enigmiSeguiti.toString());
-			enigmiSeguitiRepository.saveAll(enigmiSeguiti);
-		}
-	}
->>>>>>> e890f051646c61402128f0d2102e99b3351b10f1
 }
