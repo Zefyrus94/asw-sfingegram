@@ -2,7 +2,8 @@ package asw.sfingegram.enigmiseguiti.eventlistener;
 import asw.sfingegram.common.api.event.DomainEvent; 
 import asw.sfingegram.enigmaservice.api.event.*; 
 import asw.sfingegram.enigmiseguiti.domain.*;
-
+//connessioni
+import asw.sfingegram.connessioniservice.api.event.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;//?
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.logging.*;
 public class EnigmaDomainEventConsumer {
 	@Autowired
 	private EnigmiRepository enigmiRepository;
-
+	
 	private final Logger logger = Logger.getLogger(EnigmaDomainEventConsumer.class.toString());
 
 	public void onEvent(DomainEvent event) {
@@ -37,6 +38,4 @@ public class EnigmaDomainEventConsumer {
 		enigmiRepository.save(enigma);
 		logger.info("CREATED ENIGMA: " + enigma);
 	}
-
-
 }
