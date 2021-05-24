@@ -8,6 +8,7 @@ import lombok.*;
 @Entity 
 @Data @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "enigmiseguiti")
 public class EnigmaSeguito implements Comparable<EnigmaSeguito> {
 
 	@Id 
