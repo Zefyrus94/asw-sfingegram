@@ -6,32 +6,28 @@ import lombok.*;
 
 /* Enigma, in formato completo. */ 
 @Entity 
+@IdClass(EnigmaSeguitoKey.class)
 @Data @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "enigmiseguiti")
-public class EnigmaSeguito implements Comparable<EnigmaSeguito> {
-
-	// @Id 
-	// @EqualsAndHashCode.Include
-	// private Long id; 
-
-	// @Id
-	// @EqualsAndHashCode.Include
-	// private String utente; 
+public class EnigmaSeguito{
 
 	@Id
 	@EqualsAndHashCode.Include
-	private String idutente; 
+	private Long id; 
+
+	@Id
+	@EqualsAndHashCode.Include
+	private String utente; 
 
 	private String autore;
 	private String tipo; 
 	private String titolo; 
 	private String testo; 
-	private String utente; 
 	
 	public EnigmaSeguito(Long id, String autore, String tipo, String titolo, String testo, String utente) {
 		this(); 
-		this.idutente = id+utente; 
+		this.id = id; 
 		this.autore = autore; 
 		this.tipo = tipo; 
 		this.titolo = titolo; 
@@ -41,7 +37,7 @@ public class EnigmaSeguito implements Comparable<EnigmaSeguito> {
 
 	public EnigmaSeguito(Enigma enigma, String utente) {
 		this(); 
-		this.idutente = enigma.getId()+utente; 
+		this.id = enigma.getId(); 
 		this.autore = enigma.getAutore(); 
 		this.tipo = enigma.getTipo(); 
 		this.titolo = enigma.getTitolo(); 
@@ -49,9 +45,5 @@ public class EnigmaSeguito implements Comparable<EnigmaSeguito> {
 		this.utente = utente; 
 	}
 
-	@Override
-	public int compareTo(EnigmaSeguito other) {
-		return this.idutente.compareTo(other.idutente); 
-	}
 	
 }
