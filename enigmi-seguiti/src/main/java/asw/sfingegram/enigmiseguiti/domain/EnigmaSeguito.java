@@ -11,18 +11,27 @@ import lombok.*;
 @Table(name = "enigmiseguiti")
 public class EnigmaSeguito implements Comparable<EnigmaSeguito> {
 
-	@Id 
-	@GeneratedValue
+	// @Id 
+	// @EqualsAndHashCode.Include
+	// private Long id; 
+
+	// @Id
+	// @EqualsAndHashCode.Include
+	// private String utente; 
+
+	@Id
 	@EqualsAndHashCode.Include
-	private Long id; 
-	private String autore; 
+	private String idutente; 
+
+	private String autore;
 	private String tipo; 
 	private String titolo; 
 	private String testo; 
 	private String utente; 
 	
-	public EnigmaSeguito(String autore, String tipo, String titolo, String testo, String utente) {
+	public EnigmaSeguito(Long id, String autore, String tipo, String titolo, String testo, String utente) {
 		this(); 
+		this.idutente = id+utente; 
 		this.autore = autore; 
 		this.tipo = tipo; 
 		this.titolo = titolo; 
@@ -32,6 +41,7 @@ public class EnigmaSeguito implements Comparable<EnigmaSeguito> {
 
 	public EnigmaSeguito(Enigma enigma, String utente) {
 		this(); 
+		this.idutente = enigma.getId()+utente; 
 		this.autore = enigma.getAutore(); 
 		this.tipo = enigma.getTipo(); 
 		this.titolo = enigma.getTitolo(); 
@@ -41,7 +51,7 @@ public class EnigmaSeguito implements Comparable<EnigmaSeguito> {
 
 	@Override
 	public int compareTo(EnigmaSeguito other) {
-		return this.id.compareTo(other.id); 
+		return this.idutente.compareTo(other.idutente); 
 	}
 	
 }
