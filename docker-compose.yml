@@ -1,20 +1,20 @@
 version: '3'
 volumes:
   database-enigmi:
+    # external:
+    #   name: database-enigmi
   database-connessioni:
   database-enigmiseguiti: # named volumes can be managed easier using docker-compose
 services:
-  database_1:
-    container_name: "postgres_enigmi"
+  postgres_enigmi:
     image: "postgres" # use latest official postgres version
+    restart: always
     env_file:
       - init_db_sfingegram_enigmi.env # configure postgres
     volumes:
-      #docker volume inspect database-data
       - database-enigmi:/var/lib/postgresql/data/ # persist data even if container shuts down
-#      - ./db:/docker-entrypoint-initdb.d/
     ports:
-      - 5432:5432
+      - "5432"
   database_2:
     container_name: "postgres_connessioni"
     image: "postgres" # use latest official postgres version
