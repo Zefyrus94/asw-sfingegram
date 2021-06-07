@@ -1,12 +1,10 @@
 version: '3'
-
 networks:
   net:
     driver: bridge
     ipam:
       config:
         - subnet: 172.22.0.0/24
-
 volumes:
   database-enigmi:
     # external:
@@ -97,28 +95,28 @@ services:
       - net
   enigmi:
     build: ./enigmi
-    image: enigmi-service
+    image: sfingegram/enigmi-service
     depends_on:
       - consul 
     networks:
       - net
   connessioni:
     build: ./connessioni
-    image: connessioni-service
+    image: sfingegram/connessioni-service
     depends_on:
       - consul  
     networks:
       - net
   enigmi-seguiti:
     build: ./enigmi-seguiti
-    image: enigmi-seguiti-service
+    image: sfingegram/enigmi-seguiti-service
     depends_on:
       - consul  
     networks:
       - net
   apigateway:
     build: ./api-gateway
-    image: api-gateway-service
+    image: sfingegram/api-gateway-service
     ports:
     - "8080:8080"
     depends_on:
