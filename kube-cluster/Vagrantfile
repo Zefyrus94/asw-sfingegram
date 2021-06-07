@@ -66,7 +66,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Ubuntu 20.04 LTS 64 bit VirtualBox (Bento)
     config.vm.box = IMAGE_BOX
 
-    # folder per i progetti Asw (/home/asw/projects)
+    # folder del progetto asw-sfingegram (/home/asw-sfingegram)
     config.vm.synced_folder "../../asw-sfingegram/", "/home/asw-sfingegram", :mount_options => ["dmode=777", "fmode=777"]
 
     # folder per le risorse condivise per gli ambienti Asw (/home/asw/shared/resources e /home/asw/shared/scripts) 
@@ -113,7 +113,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 				node.vm.provision :shell, :inline => ASW_SCRIPTS + "setup-maven.sh"	
 				
 				# crea un link simbolico alla cartella dei progetti asw nella cartella dell'utente di default 
-				node.vm.provision :shell, :inline => 'ln -s /home/asw/projects projects'				
+				node.vm.provision :shell, :inline => 'ln -s /home/asw-sfingegram asw-sfingegram'				
             end
 
 			# 
