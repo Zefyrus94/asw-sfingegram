@@ -4,18 +4,18 @@ spring:
   application: 
     name: enigmi
   cloud:
-    consul:
-      host: consul
-      port: 8500
-      discovery: 
-        instanceId: ${spring.application.name}-${spring.cloud.client.hostname}-${random.value}
-        healthCheckPath: /actuator/health
-        healthCheckInterval: 10s
-        # configurazione per effettuare esprimenti, NON USARE UN PRODUZIONE 
-        # dopo quanto tempo consul deve smettere di restituire servizi che non rispondono all'health check? 
-        healthCheckCriticalTimeout: 45s
-        # consul deve restituire solo servizi che passano l'health check (default=false) 
-        queryPassing: true 
+#    consul:
+#      host: consul
+#      port: 8500
+#      discovery:
+#        instanceId: ${spring.application.name}-${spring.cloud.client.hostname}-${random.value}
+#        healthCheckPath: /actuator/health
+#        healthCheckInterval: 10s
+#        # configurazione per effettuare esprimenti, NON USARE UN PRODUZIONE
+#        # dopo quanto tempo consul deve smettere di restituire servizi che non rispondono all'health check?
+#        healthCheckCriticalTimeout: 45s
+#        # consul deve restituire solo servizi che passano l'health check (default=false)
+#        queryPassing: true
     loadbalancer: 
       ribbon.enabled: false 
   kafka:
@@ -38,7 +38,7 @@ spring:
     username: postgres
     password: postgres
     platform: postgres
-    url: jdbc:postgresql://postgres_enigmi:5432/sfingegram-enigmi
+    url: jdbc:postgresql://postgres-enigmi:5432/sfingegram-enigmi
   jpa:
     database: POSTGRESQL
     #generate-ddl: true
