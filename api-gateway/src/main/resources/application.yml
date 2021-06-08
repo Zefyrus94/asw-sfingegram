@@ -28,19 +28,19 @@ spring:
           enabled: false
       routes:
       - id: enigmi_seguiti_route
-        uri: http://enigmi-seguiti
+        uri: lb://enigmi-seguiti
         predicates:
         - Path=/enigmi-seguiti/**
         filters:
         - StripPrefix=1
       - id: enigmi_route
-        uri: http://enigmi
+        uri: lb://enigmi
         predicates:
         - Path=/enigmi/**
         filters:
         - StripPrefix=1
       - id: connessioni_route
-        uri: http://connessioni
+        uri: lb://connessioni
         predicates:
         - Path=/connessioni/**
         filters:
