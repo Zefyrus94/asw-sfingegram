@@ -95,7 +95,7 @@ services:
       - net
   enigmi:
     build: ./enigmi
-    image: sfingegram/enigmi-service
+    image: sfingegram/enigmi-service-v2
 #    depends_on:
 #      - consul
     networks:

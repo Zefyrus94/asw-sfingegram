@@ -65,7 +65,7 @@ spec:
     spec:
       containers:
       - name: enigmi-container
-        image: sfingegram/enigmi-service
+        image: sfingegram/enigmi-service-v2
         ports:
         - containerPort: 8080
         readinessProbe: 

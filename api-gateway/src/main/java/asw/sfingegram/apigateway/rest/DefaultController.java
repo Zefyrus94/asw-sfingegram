@@ -9,13 +9,8 @@ import java.util.*;
 public class DefaultController {
 
 	@GetMapping("/")
-	public Collection<String> index() {
-		return Arrays.asList(
-			"http://localhost:8080/enigmi/swagger-ui/", 
-			"http://localhost:8080/connessioni/swagger-ui/", 
-			"http://localhost:8080/enigmi-seguiti/swagger-ui/", 
-			"http://localhost:8080/actuator" 
-		); 
+	public String index() {
+		return "Benvenuto nell'app sfingegram, gli endpoint sono /enigmi, /connessioni, /enigmiseguiti";
 	}
 	
 }
