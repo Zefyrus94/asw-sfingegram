@@ -9,6 +9,8 @@ dependencyManagement {
 	}
 }
 
+// Va aggiunto implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-loadbalancer' ??
+
 dependencies {
 	//per gli eventi di kafka
 	implementation project(":sfingegram-common-api-event")
@@ -18,8 +20,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux' 
 	implementation 'org.springframework.cloud:spring-cloud-starter'
-	implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
-	implementation 'org.springframework.cloud:spring-cloud-loadbalancer'
+	// implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+	// implementation 'org.springframework.cloud:spring-cloud-loadbalancer'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	//kafka
