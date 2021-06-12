@@ -107,7 +107,7 @@ spec:
 #           initialDelaySeconds: 15
 #           periodSeconds: 10
 
-# ---
+---
 # apiVersion: apps/v1
 # kind: Deployment
 # metadata:
@@ -138,7 +138,7 @@ spec:
 #             port: 8080
 #           initialDelaySeconds: 15
 #           periodSeconds: 10
----
+# ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -192,20 +192,20 @@ spec:
     port: 5432
     targetPort: 5432
   
-# ---
+---
 
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: enigmi
-# spec:
-#   selector:
-#     app: sfingegram
-#     service: enigmi
-#   ports:
-#   - protocol: TCP
-#     port: 8080
-#     targetPort: 8080
+apiVersion: v1
+kind: Service
+metadata:
+  name: enigmi
+spec:
+  selector:
+    app: sfingegram
+    service: enigmi
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
   
 # ---
 # apiVersion: v1
@@ -268,7 +268,6 @@ spec:
             name: apigateway
             port: 
               number: 8080 
-  
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -336,3 +335,47 @@ roleRef:
   name: service-discovery-reader
   apiGroup: ""
 
+# ---
+# ###zookeeper
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: zookeeper
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: instagnam
+#       service: zookeeper
+#   template:
+#     metadata:
+#       labels:
+#         app: instagnam
+#         service: zookeeper
+#     spec:
+#       containers:
+#       - name: zookeeper
+#         image: wurstmeister/zookeeper
+#         ports:
+#         - containerPort: 2181
+#         readinessProbe: 
+#           httpGet: 
+#             path: /actuator/health
+#             port: 8080
+#           initialDelaySeconds: 15
+#           periodSeconds: 10
+
+# ---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: zookeeper
+# spec:
+#   selector:
+#     app: instagnam
+#     service: zookeeper
+#   ports:
+#     - protocol: TCP
+#       port: 2181
+#       targetPort: 2181
