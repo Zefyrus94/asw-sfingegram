@@ -30,11 +30,11 @@ spec:
               name: pg-enigmiseguiti-config
         volumeMounts:
           - mountPath: /var/lib/postgresql/data
-            name: postgredb
+            name: postgresdb
       volumes:
-        - name: postgredb
+        - name: postgresdb
           persistentVolumeClaim:
-            claimName: postgres-pv-claim
+            claimName: enigmiseguiti-claim
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -72,7 +72,45 @@ spec:
       volumes:
         - name: postgredb
           persistentVolumeClaim:
-            claimName: postgres-pv-claim
+            claimName: enigmi-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-connessioni
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sfingegram
+      service: postgres-connessioni
+  template: 
+    metadata:
+      labels:
+        app: sfingegram
+        service: postgres-connessioni
+    spec:
+      containers:
+      - name: postgres-connessioni
+        image: postgres
+        ports:
+        - containerPort: 5432
+        # readinessProbe: 
+        #   httpGet: 
+        #     path: /actuator/health
+        #     port: 8080
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 10
+        envFrom:
+          - configMapRef:
+              name: postgres-config
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: connessioni-claim
 ---          
 apiVersion: apps/v1
 kind: Deployment
@@ -102,37 +140,34 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 10
 
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: connessioni
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: sfingegram
-#       service: connessioni
-#   template: 
-#     metadata:
-#       labels:
-#         app: sfingegram
-#         service: connessioni
-#     spec:
-#       containers:
-#       - name: connessioni-container
-#         image: sfingegram/connessioni-service
-#         env: 
-#         - name: SPRING_PROFILES_ACTIVE
-#           value: connessioni
-#         ports:
-#         - containerPort: 8080
-#         readinessProbe: 
-#           httpGet: 
-#             path: /actuator/health
-#             port: 8080
-#           initialDelaySeconds: 15
-#           periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connessioni
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sfingegram
+      service: connessioni
+  template: 
+    metadata:
+      labels:
+        app: sfingegram
+        service: connessioni
+    spec:
+      containers:
+      - name: connessioni-container
+        image: sfingegram/connessioni-service
+        ports:
+        - containerPort: 8080
+        readinessProbe: 
+          httpGet: 
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
 
 ---
 apiVersion: apps/v1
@@ -202,6 +237,20 @@ spec:
 #       - net
 #     ports:
 #       - "5432"
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-enigmiseguiti
+spec:
+  selector:
+    app: sfingegram
+    service: postgres-enigmiseguiti
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+  
+---
 
 apiVersion: v1
 kind: Service
@@ -211,6 +260,22 @@ spec:
   selector:
     app: sfingegram
     service: postgres-enigmi
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+  
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-connessioni
+spec:
+  selector:
+    app: sfingegram
+    service: postgres-connessioni
   ports:
   - protocol: TCP
     port: 5432
@@ -231,19 +296,19 @@ spec:
     port: 8080
     targetPort: 8080
   
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: connessioni
-# spec:
-#   selector:
-#     app: sfingegram
-#     service: connessioni
-#   ports:
-#   - protocol: TCP
-#     port: 8080
-#     targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: connessioni
+spec:
+  selector:
+    app: sfingegram
+    service: connessioni
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
 
 ---
 apiVersion: v1
@@ -298,7 +363,7 @@ kind: ConfigMap
 metadata:
   name: postgres-config
   labels:
-    app: postgres
+    app: pg-enigmi
 data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
@@ -309,19 +374,30 @@ kind: ConfigMap
 metadata:
   name: pg-enigmiseguiti-config
   labels:
-    app: postgres
+    app: pg-enigmiseguiti
 data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
   POSTGRES_DB: sfingegram-enigmiseguiti
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pg-connessioni-config
+  labels:
+    app: pg-connessioni
+data:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: sfingegram-connessioni
+---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: postgres-pv-volume
+  name: postgres-pv-enigmi
   labels:
     type: local
-    app: postgres
+    app: pg-enigmi
 spec:
   storageClassName: manual
   capacity:
@@ -329,14 +405,74 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/mnt/data"
+    path: "/mnt/data/enigmi"
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-enigmiseguiti
+  labels:
+    type: local
+    app: pg-enigmiseguiti
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/enigmiseguiti"
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-connessioni
+  labels:
+    type: local
+    app: pg-connessioni
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/connessioni"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: postgres-pv-claim
+  name: enigmi-claim
   labels:
-    app: postgres
+    app: pg-enigmi
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: connessioni-claim
+  labels:
+    app: pg-connessioni
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: enigmiseguiti-claim
+  labels:
+    app: pg-enigmiseguiti
 spec:
   storageClassName: manual
   accessModes:
