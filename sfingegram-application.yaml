@@ -175,7 +175,7 @@ kind: Deployment
 metadata:
   name: enigmi-seguiti
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: sfingegram
@@ -405,7 +405,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/mnt/data/enigmi"
+    path: "/var/lib/postgresql/data/enigmi"
   claimRef:
     namespace: sfingegram
     name: enigmi-claim
@@ -424,7 +424,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/mnt/data/enigmiseguiti"
+    path: "/var/lib/postgresql/data/enigmiseguiti"
   claimRef:
     namespace: sfingegram
     name: enigmiseguiti-claim
@@ -443,7 +443,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/mnt/data/connessioni"
+    path: "/var/lib/postgresql/data/connessioni"
   claimRef:
     namespace: sfingegram
     name: connessioni-claim
