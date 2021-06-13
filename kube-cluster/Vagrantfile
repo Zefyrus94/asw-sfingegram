@@ -74,7 +74,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # folder per i dati condivisi per gli ambienti Asw (/home/asw/data) 
 	# da usare per eventuali volumi docker 
-    # config.vm.synced_folder "../../data/", "/home/asw/data", :mount_options => ["dmode=777", "fmode=777"]
+    config.vm.synced_folder "../data/", "/mnt/data", :mount_options => ["dmode=777", "fmode=777"]
 
     KUBE_CLUSTER_NODES.each do |opts|
         config.vm.define opts[:name] do |node|

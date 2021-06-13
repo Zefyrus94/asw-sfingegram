@@ -399,7 +399,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/var/lib/postgresql/data/enigmi"
+    path: "/mnt/data/enigmi"
   claimRef:
     namespace: sfingegram
     name: enigmi-claim
@@ -418,7 +418,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/var/lib/postgresql/data/enigmiseguiti"
+    path: "/mnt/data/enigmiseguiti"
   claimRef:
     namespace: sfingegram
     name: enigmiseguiti-claim
@@ -437,7 +437,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/var/lib/postgresql/data/connessioni"
+    path: "/mnt/data/connessioni"
   claimRef:
     namespace: sfingegram
     name: connessioni-claim
