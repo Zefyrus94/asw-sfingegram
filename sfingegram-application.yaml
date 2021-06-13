@@ -1,14 +1,41 @@
-# postgres-enigmi:
-#     image: "postgres" 
-#     restart: always
-#     env_file:
-#       - init_db_sfingegram_enigmi.env # configure postgres
-#     volumes:
-#       - database-enigmi:/var/lib/postgresql/data/ # persist data even if container shuts down
-#     networks:
-#       - net
-#     ports:
-#       - "5432"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-enigmiseguiti
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sfingegram
+      service: postgres-enigmiseguiti
+  template: 
+    metadata:
+      labels:
+        app: sfingegram
+        service: postgres-enigmiseguiti
+    spec:
+      containers:
+      - name: postgres-enigmiseguiti
+        image: postgres
+        ports:
+        - containerPort: 5432
+        # readinessProbe: 
+        #   httpGet: 
+        #     path: /actuator/health
+        #     port: 8080
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 10
+        envFrom:
+          - configMapRef:
+              name: pg-enigmiseguiti-config
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -107,34 +134,34 @@ spec:
 #           initialDelaySeconds: 15
 #           periodSeconds: 10
 
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: enigmiseguiti
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: sfingegram
-#       service: enigmiseguiti
-#   template: 
-#     metadata:
-#       labels:
-#         app: sfingegram
-#         service: enigmiseguiti
-#     spec:
-#       containers:
-#       - name: enigmiseguiti-container
-#         image: sfingegram/enigmi-seguiti-service
-#         ports:
-#         - containerPort: 8080
-#         readinessProbe: 
-#           httpGet: 
-#             path: /actuator/health
-#             port: 8080
-#           initialDelaySeconds: 15
-#           periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enigmiseguiti
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sfingegram
+      service: enigmiseguiti
+  template: 
+    metadata:
+      labels:
+        app: sfingegram
+        service: enigmiseguiti
+    spec:
+      containers:
+      - name: enigmiseguiti-container
+        image: sfingegram/enigmi-seguiti-service
+        ports:
+        - containerPort: 8080
+        readinessProbe: 
+          httpGet: 
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -218,19 +245,19 @@ spec:
 #     port: 8080
 #     targetPort: 8080
 
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: enigmiseguiti
-# spec:
-#   selector:
-#     app: sfingegram
-#     service: enigmiseguiti
-#   ports:
-#   - protocol: TCP
-#     port: 8080
-#     targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enigmiseguiti
+spec:
+  selector:
+    app: sfingegram
+    service: enigmiseguiti
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
 
 ---
 apiVersion: v1
@@ -276,6 +303,17 @@ data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
   POSTGRES_DB: sfingegram-enigmi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pg-enigmiseguiti-config
+  labels:
+    app: postgres
+data:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: sfingegram-enigmiseguiti
 ---
 kind: PersistentVolume
 apiVersion: v1
