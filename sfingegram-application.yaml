@@ -30,9 +30,9 @@ spec:
               name: pg-enigmiseguiti-config
         volumeMounts:
           - mountPath: /var/lib/postgresql/data
-            name: postgresdb
+            name: enigmiseguitidb
       volumes:
-        - name: postgresdb
+        - name: enigmiseguitidb
           persistentVolumeClaim:
             claimName: enigmiseguiti-claim
 ---
@@ -65,12 +65,12 @@ spec:
         #   periodSeconds: 10
         envFrom:
           - configMapRef:
-              name: postgres-config
+              name: pg-enigmi-config
         volumeMounts:
           - mountPath: /var/lib/postgresql/data
-            name: postgredb
+            name: enigmidb
       volumes:
-        - name: postgredb
+        - name: enigmidb
           persistentVolumeClaim:
             claimName: enigmi-claim
 ---
@@ -103,12 +103,12 @@ spec:
         #   periodSeconds: 10
         envFrom:
           - configMapRef:
-              name: postgres-config
+              name:  pg-connessioni-config
         volumeMounts:
           - mountPath: /var/lib/postgresql/data
-            name: postgredb
+            name: connessionidb
       volumes:
-        - name: postgredb
+        - name: connessionidb
           persistentVolumeClaim:
             claimName: connessioni-claim
 ---          
@@ -361,7 +361,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-config
+  name: pg-enigmi-config
   labels:
     app: pg-enigmi
 data:
@@ -406,6 +406,9 @@ spec:
     - ReadWriteMany
   hostPath:
     path: "/mnt/data/enigmi"
+  claimRef:
+    namespace: sfingegram
+    name: enigmi-claim
 ---
 kind: PersistentVolume
 apiVersion: v1
@@ -422,6 +425,9 @@ spec:
     - ReadWriteMany
   hostPath:
     path: "/mnt/data/enigmiseguiti"
+  claimRef:
+    namespace: sfingegram
+    name: enigmiseguiti-claim
 ---
 kind: PersistentVolume
 apiVersion: v1
@@ -438,6 +444,9 @@ spec:
     - ReadWriteMany
   hostPath:
     path: "/mnt/data/connessioni"
+  claimRef:
+    namespace: sfingegram
+    name: connessioni-claim
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -456,9 +465,9 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: connessioni-claim
+  name: enigmiseguiti-claim
   labels:
-    app: pg-connessioni
+    app: pg-enigmiseguiti
 spec:
   storageClassName: manual
   accessModes:
@@ -470,9 +479,9 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: enigmiseguiti-claim
+  name: connessioni-claim
   labels:
-    app: pg-enigmiseguiti
+    app: pg-connessioni
 spec:
   storageClassName: manual
   accessModes:
