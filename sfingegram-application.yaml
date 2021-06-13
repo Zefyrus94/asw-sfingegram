@@ -19,15 +19,22 @@ spec:
         image: postgres
         ports:
         - containerPort: 5432
-        # readinessProbe: 
-        #   httpGet: 
-        #     path: /actuator/health
-        #     port: 8080
-        #   initialDelaySeconds: 15
-        #   periodSeconds: 10
-        envFrom:
-          - configMapRef:
-              name: pg-enigmiseguiti-config
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: pg-enigmi-seguiti-secret-config
+              key: dbname
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: pg-enigmi-seguiti-secret-config
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pg-enigmi-seguiti-secret-config
+              key: password
         volumeMounts:
           - mountPath: /var/lib/postgresql/data
             name: enigmiseguitidb
@@ -63,9 +70,22 @@ spec:
         #     port: 8080
         #   initialDelaySeconds: 15
         #   periodSeconds: 10
-        envFrom:
-          - configMapRef:
-              name: pg-enigmi-config
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: pg-enigmi-secret-config
+              key: dbname
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: pg-enigmi-secret-config
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pg-enigmi-secret-config
+              key: password
         volumeMounts:
           - mountPath: /var/lib/postgresql/data
             name: enigmidb
@@ -95,15 +115,22 @@ spec:
         image: postgres
         ports:
         - containerPort: 5432
-        # readinessProbe: 
-        #   httpGet: 
-        #     path: /actuator/health
-        #     port: 8080
-        #   initialDelaySeconds: 15
-        #   periodSeconds: 10
-        envFrom:
-          - configMapRef:
-              name:  pg-connessioni-config
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: pg-connessioni-secret-config
+              key: dbname
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: pg-connessioni-secret-config
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pg-connessioni-secret-config
+              key: password
         volumeMounts:
           - mountPath: /var/lib/postgresql/data
             name: connessionidb
@@ -358,39 +385,6 @@ spec:
             port: 
               number: 8080 
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pg-enigmi-config
-  labels:
-    app: pg-enigmi
-data:
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_DB: sfingegram-enigmi
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pg-enigmiseguiti-config
-  labels:
-    app: pg-enigmiseguiti
-data:
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_DB: sfingegram-enigmiseguiti
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pg-connessioni-config
-  labels:
-    app: pg-connessioni
-data:
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_DB: sfingegram-connessioni
----
 kind: PersistentVolume
 apiVersion: v1
 metadata:
@@ -611,3 +605,33 @@ spec:
     - protocol: TCP
       port: 9092
       targetPort: 9092
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pg-enigmi-secret-config
+type: Opaque
+data:
+  dbname: c2ZpbmdlZ3JhbS1lbmlnbWk=
+  username: cG9zdGdyZXM=
+  password: cG9zdGdyZXM=
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pg-connessioni-secret-config
+type: Opaque
+data:
+  dbname: c2ZpbmdlZ3JhbS1jb25uZXNzaW9uaQ==
+  username: cG9zdGdyZXM=
+  password: cG9zdGdyZXM=
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pg-enigmi-seguiti-secret-config
+type: Opaque
+data:
+  dbname: c2ZpbmdlZ3JhbS1lbmlnbWlzZWd1aXRp
+  username: cG9zdGdyZXM=
+  password: cG9zdGdyZXM=
