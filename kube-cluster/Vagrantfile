@@ -98,7 +98,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 			node.vm.provision "shell" do |s| 
 				s.inline = ASW_SCRIPTS + "configure-kube-cluster-env-variables.sh $1 $2 $3 $4"
-				s.args = ["10.11.1.70", "kube-cluster", "kube-", 3]
+				s.args = ["10.11.1.70", "kube-cluster", "kubegram-", 3]
 				# starting ip, cluster domain, node name prefix, number of nodes 
 			end 
 
@@ -172,7 +172,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 				# node.vm.provision :shell, :inline => ASW_SCRIPTS + "configure-kube-cluster-dev-hosts.sh"
 				node.vm.provision "shell" do |s| 
 					s.inline = ASW_SCRIPTS + "configure-kube-cluster-dev-hosts.sh $1 $2 $3 $4"
-					s.args = ["10.11.1.70", "kube-cluster", "kube-", 3]
+					s.args = ["10.11.1.70", "kube-cluster", "kubegram-", 3]
 				end 
 				node.vm.provision :shell, :inline => ASW_SCRIPTS + "setup-kubernetes-kubeadm-client.sh"
                 # node.vm.provision :shell, :inline => ASW_SCRIPTS + "configure-kube-cluster-client.sh " + KUBE_CLUSTER_MASTER_IP

@@ -42,7 +42,7 @@ function configureKubeClusterClientEtcHosts {
 		CURRENT_NUM=$(($IP_STARTING_NUM+$i))
 		CURRENT_IP=${IP_PREFIX}${CURRENT_NUM}
 		CURRENT_NODE=${CLUSTER_NODE_PREFIX}$i
-		echo "${CURRENT_IP} ${CURRENT_NODE} ${CLUSTER_DOMAIN} hello sentence alpha beta gamma" >> ${HOSTS_FILE}
+		echo "${CURRENT_IP} ${CURRENT_NODE} ${CLUSTER_DOMAIN} sfinge" >> ${HOSTS_FILE}
 	done
 }
 
