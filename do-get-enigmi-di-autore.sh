@@ -6,5 +6,5 @@
 AUTORE=$(echo $1 | sed -e "s/ /%20/g") 
 
 echo "# tutti gli enigmi dell'autore $1" 
-echo $(curl -s localhost:8080/enigmi/cercaenigmi/autore/$AUTORE)
+echo $(curl -s sfingegram:31080/enigmi/cercaenigmi/autore/$AUTORE)
 echo 
