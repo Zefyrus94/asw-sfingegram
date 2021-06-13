@@ -314,11 +314,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: enigmiseguiti
+  name: enigmi-seguiti
 spec:
   selector:
     app: sfingegram
-    service: enigmiseguiti
+    service: enigmi-seguiti
   ports:
   - protocol: TCP
     port: 8080
