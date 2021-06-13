@@ -173,18 +173,18 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: enigmiseguiti
+  name: enigmi-seguiti
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: sfingegram
-      service: enigmiseguiti
+      service: enigmi-seguiti
   template: 
     metadata:
       labels:
         app: sfingegram
-        service: enigmiseguiti
+        service: enigmi-seguiti
     spec:
       containers:
       - name: enigmiseguiti-container
