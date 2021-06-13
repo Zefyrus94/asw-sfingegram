@@ -107,34 +107,34 @@ spec:
 #           initialDelaySeconds: 15
 #           periodSeconds: 10
 
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: enigmiseguiti
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sfingegram
-      service: enigmiseguiti
-  template: 
-    metadata:
-      labels:
-        app: sfingegram
-        service: enigmiseguiti
-    spec:
-      containers:
-      - name: enigmiseguiti-container
-        image: sfingegram/enigmi-seguiti-service
-        ports:
-        - containerPort: 8080
-        readinessProbe: 
-          httpGet: 
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 15
-          periodSeconds: 10
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: enigmiseguiti
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: sfingegram
+#       service: enigmiseguiti
+#   template: 
+#     metadata:
+#       labels:
+#         app: sfingegram
+#         service: enigmiseguiti
+#     spec:
+#       containers:
+#       - name: enigmiseguiti-container
+#         image: sfingegram/enigmi-seguiti-service
+#         ports:
+#         - containerPort: 8080
+#         readinessProbe: 
+#           httpGet: 
+#             path: /actuator/health
+#             port: 8080
+#           initialDelaySeconds: 15
+#           periodSeconds: 10
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -218,19 +218,19 @@ spec:
 #     port: 8080
 #     targetPort: 8080
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: enigmiseguiti
-spec:
-  selector:
-    app: sfingegram
-    service: enigmiseguiti
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: 8080
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: enigmiseguiti
+# spec:
+#   selector:
+#     app: sfingegram
+#     service: enigmiseguiti
+#   ports:
+#   - protocol: TCP
+#     port: 8080
+#     targetPort: 8080
 
 ---
 apiVersion: v1

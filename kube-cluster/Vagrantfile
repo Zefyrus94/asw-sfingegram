@@ -25,7 +25,7 @@ KUBE_CLUSTER_NODES = [
         :box => "bento/ubuntu-20.04",
         :eth1 => "10.11.1.72",
         :httpport => "8082",
-        :memory => "1024",
+        :memory => "2048",
         :cpus => "2", 
         :cpuexecutioncap => "50" 
     },
@@ -35,7 +35,7 @@ KUBE_CLUSTER_NODES = [
         :box => "bento/ubuntu-20.04",
         :eth1 => "10.11.1.73",
         :httpport => "8083",
-        :memory => "1024",
+        :memory => "2048",
         :cpus => "2", 
         :cpuexecutioncap => "50" 
     },
