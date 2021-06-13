@@ -5,9 +5,9 @@
 ID=${1:-1} 
 
 echo "# trova l'enigma $ID" 
-echo $(curl -s sfingegram:31080/enigmi/enigmi/${ID})
+echo $(curl -s sfinge:31080/enigmi/enigmi/${ID})
 echo 
 
 echo "# trova la soluzione l'enigma $ID" 
-echo $(curl -s sfingegram:31080/enigmi/enigmi/${ID}/soluzione)
+echo $(curl -s sfinge:31080/enigmi/enigmi/${ID}/soluzione)
 echo 

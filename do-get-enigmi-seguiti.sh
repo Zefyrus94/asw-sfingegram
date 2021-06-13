@@ -6,5 +6,5 @@
 UTENTE=$(echo $1 | sed -e "s/ /%20/g") 
 
 echo "# gli enigmi seguiti da $1" 
-echo $(curl -s sfingegram:31080/enigmi-seguiti/enigmiseguiti/$UTENTE)
+echo $(curl -s sfinge:31080/enigmi-seguiti/enigmiseguiti/$UTENTE)
 echo 

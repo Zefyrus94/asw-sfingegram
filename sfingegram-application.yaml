@@ -344,10 +344,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sfingegram
+  name: sfinge
 spec:
   rules:
-  - host: sfingegram 
+  - host: sfinge 
     http: 
       paths: 
       - pathType: Prefix

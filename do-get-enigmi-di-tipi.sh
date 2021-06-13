@@ -7,6 +7,6 @@
 TIPI=$(echo $1 | sed -e "s/ /%20/g" | sed -e "s/,/%2C/g") 
 
 echo "# tutti gli enigmi dei tipi $1" 
-echo $(curl -s sfingegram:31080/enigmi/cercaenigmi/tipi/$TIPI)
+echo $(curl -s sfinge:31080/enigmi/cercaenigmi/tipi/$TIPI)
 echo 
 
