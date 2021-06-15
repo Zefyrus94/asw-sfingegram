@@ -1,48 +1,333 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: postgres-enigmiseguiti
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sfingegram
-      service: postgres-enigmiseguiti
-  template: 
-    metadata:
-      labels:
-        app: sfingegram
-        service: postgres-enigmiseguiti
-    spec:
-      containers:
-      - name: postgres-enigmiseguiti
-        image: postgres
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: pg-enigmi-seguiti-secret-config
-              key: dbname
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: pg-enigmi-seguiti-secret-config
-              key: username
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: pg-enigmi-seguiti-secret-config
-              key: password
-        volumeMounts:
-          - mountPath: /var/lib/postgresql/data
-            name: enigmiseguitidb
-      volumes:
-        - name: enigmiseguitidb
-          persistentVolumeClaim:
-            claimName: enigmiseguiti-claim
----
+# apiVersion: v1
+# kind: Node
+# metadata:
+#   name: 10.11.1.72
+#   labels:
+#     name: kubegram-2
+# ---
+##############################>ENIGMISEGUITI
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: postgres-enigmiseguiti
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: sfingegram
+#       service: postgres-enigmiseguiti
+#   template: 
+#     metadata:
+#       labels:
+#         app: sfingegram
+#         service: postgres-enigmiseguiti
+#     spec:
+#       containers:
+#       - name: postgres-enigmiseguiti
+#         image: postgres
+#         ports:
+#         - containerPort: 5432
+#         env:
+#         - name: POSTGRES_DB
+#           valueFrom:
+#             secretKeyRef:
+#               name: pg-enigmi-seguiti-secret-config
+#               key: dbname
+#         - name: POSTGRES_USER
+#           valueFrom:
+#             secretKeyRef:
+#               name: pg-enigmi-seguiti-secret-config
+#               key: username
+#         - name: POSTGRES_PASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               name: pg-enigmi-seguiti-secret-config
+#               key: password
+#         volumeMounts:
+#           - mountPath: /var/lib/postgresql/data
+#             name: enigmiseguitidb
+#       volumes:
+#         - name: enigmiseguitidb
+#           persistentVolumeClaim:
+#             claimName: enigmiseguiti-claim
+#       tolerations:
+#       - key: node.kubernetes.io/not-ready
+#         effect: NoExecute
+#         tolerationSeconds: 0
+#       - key: node.kubernetes.io/unreachable
+#         effect: NoExecute
+#         tolerationSeconds: 0
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: postgres-enigmiseguiti
+# spec:
+#   selector:
+#     app: sfingegram
+#     service: postgres-enigmiseguiti
+#   ports:
+#   - protocol: TCP
+#     port: 5432
+#     targetPort: 5432
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: enigmi-seguiti
+# spec:
+#   replicas: 2
+#   selector:
+#     matchLabels:
+#       app: sfingegram
+#       service: enigmi-seguiti
+#   template: 
+#     metadata:
+#       labels:
+#         app: sfingegram
+#         service: enigmi-seguiti
+#     spec:
+#       containers:
+#       - name: enigmiseguiti-container
+#         image: sfingegram/enigmi-seguiti-service
+#         ports:
+#         - containerPort: 8080
+#         readinessProbe: 
+#           httpGet: 
+#             path: /actuator/health
+#             port: 8080
+#           initialDelaySeconds: 15
+#           periodSeconds: 10
+#       tolerations:
+#       - key: node.kubernetes.io/not-ready
+#         effect: NoExecute
+#         tolerationSeconds: 0
+#       - key: node.kubernetes.io/unreachable
+#         effect: NoExecute
+#         tolerationSeconds: 0          
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: enigmi-seguiti
+# spec:
+#   selector:
+#     app: sfingegram
+#     service: enigmi-seguiti
+#   ports:
+#   - protocol: TCP
+#     port: 8080
+#     targetPort: 8080
+# ---
+# kind: PersistentVolume
+# apiVersion: v1
+# metadata:
+#   name: postgres-pv-enigmiseguiti
+#   labels:
+#     type: local
+#     app: pg-enigmiseguiti
+# spec:
+#   storageClassName: retain-storage
+#   capacity:
+#     storage: 1Gi
+#   accessModes:
+#     - ReadWriteMany
+#   hostPath:
+#     path: "/data/enigmiseguiti"
+#   claimRef:
+#     namespace: sfingegram
+#     name: enigmiseguiti-claim
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: enigmiseguiti-claim
+#   labels:
+#     app: pg-enigmiseguiti
+# spec:
+#   storageClassName: retain-storage
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 1Gi
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: pg-enigmi-seguiti-secret-config
+# type: Opaque
+# data:
+#   dbname: c2ZpbmdlZ3JhbS1lbmlnbWlzZWd1aXRp
+#   username: cG9zdGdyZXM=
+#   password: cG9zdGdyZXM=
+# ---
+# ##############################ENIGMISEGUITI>
+# ############################<CONNESSIONI
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: postgres-connessioni
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: sfingegram
+#       service: postgres-connessioni
+#   template: 
+#     metadata:
+#       labels:
+#         app: sfingegram
+#         service: postgres-connessioni
+#     spec:
+#       containers:
+#       - name: postgres-connessioni
+#         image: postgres
+#         ports:
+#         - containerPort: 5432
+#         env:
+#         - name: POSTGRES_DB
+#           valueFrom:
+#             secretKeyRef:
+#               name: pg-connessioni-secret-config
+#               key: dbname
+#         - name: POSTGRES_USER
+#           valueFrom:
+#             secretKeyRef:
+#               name: pg-connessioni-secret-config
+#               key: username
+#         - name: POSTGRES_PASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               name: pg-connessioni-secret-config
+#               key: password
+#         volumeMounts:
+#           - mountPath: /var/lib/postgresql/data
+#             name: connessionidb
+#       volumes:
+#         - name: connessionidb
+#           persistentVolumeClaim:
+#             claimName: connessioni-claim
+#       tolerations:
+#       - key: node.kubernetes.io/not-ready
+#         effect: NoExecute
+#         tolerationSeconds: 0
+#       - key: node.kubernetes.io/unreachable
+#         effect: NoExecute
+#         tolerationSeconds: 0
+# ---    
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: postgres-connessioni
+# spec:
+#   selector:
+#     app: sfingegram
+#     service: postgres-connessioni
+#   ports:
+#   - protocol: TCP
+#     port: 5432
+#     targetPort: 5432
+# ---   
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: connessioni
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: sfingegram
+#       service: connessioni
+#   template: 
+#     metadata:
+#       labels:
+#         app: sfingegram
+#         service: connessioni
+#     spec:
+#       containers:
+#       - name: connessioni-container
+#         image: sfingegram/connessioni-service
+#         ports:
+#         - containerPort: 8080
+#         readinessProbe: 
+#           httpGet: 
+#             path: /actuator/health
+#             port: 8080
+#           initialDelaySeconds: 15
+#           periodSeconds: 10
+#       tolerations:
+#       - key: node.kubernetes.io/not-ready
+#         effect: NoExecute
+#         tolerationSeconds: 0
+#       - key: node.kubernetes.io/unreachable
+#         effect: NoExecute
+#         tolerationSeconds: 0
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: connessioni
+# spec:
+#   selector:
+#     app: sfingegram
+#     service: connessioni
+#   ports:
+#   - protocol: TCP
+#     port: 8080
+#     targetPort: 8080
+# ---
+# kind: PersistentVolume
+# apiVersion: v1
+# metadata:
+#   name: postgres-pv-connessioni
+#   labels:
+#     type: local
+#     app: pg-connessioni
+# spec:
+#   storageClassName: retain-storage
+#   capacity:
+#     storage: 1Gi
+#   accessModes:
+#     - ReadWriteMany
+#   hostPath:
+#     path: "/data/connessioni"
+#   claimRef:
+#     namespace: sfingegram
+#     name: connessioni-claim
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: connessioni-claim
+#   labels:
+#     app: pg-connessioni
+# spec:
+#   storageClassName: retain-storage
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 1Gi
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: pg-connessioni-secret-config
+# type: Opaque
+# data:
+#   dbname: c2ZpbmdlZ3JhbS1jb25uZXNzaW9uaQ==
+#   username: cG9zdGdyZXM=
+#   password: cG9zdGdyZXM=
+# ---
+# #######################CONNESSIONI>
+
+
+
+
+
+
+##############################<ENIGMI
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -64,12 +349,6 @@ spec:
         image: postgres
         ports:
         - containerPort: 5432
-        # readinessProbe: 
-        #   httpGet: 
-        #     path: /actuator/health
-        #     port: 8080
-        #   initialDelaySeconds: 15
-        #   periodSeconds: 10
         env:
         - name: POSTGRES_DB
           valueFrom:
@@ -95,52 +374,27 @@ spec:
         - name: enigmidb
           persistentVolumeClaim:
             claimName: enigmi-claim
+      tolerations:
+      - key: node.kubernetes.io/not-ready
+        effect: NoExecute
+        tolerationSeconds: 0
+      - key: node.kubernetes.io/unreachable
+        effect: NoExecute
+        tolerationSeconds: 0      
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: postgres-connessioni
+  name: postgres-enigmi
 spec:
-  replicas: 1
   selector:
-    matchLabels:
-      app: sfingegram
-      service: postgres-connessioni
-  template: 
-    metadata:
-      labels:
-        app: sfingegram
-        service: postgres-connessioni
-    spec:
-      containers:
-      - name: postgres-connessioni
-        image: postgres
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: pg-connessioni-secret-config
-              key: dbname
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: pg-connessioni-secret-config
-              key: username
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: pg-connessioni-secret-config
-              key: password
-        volumeMounts:
-          - mountPath: /var/lib/postgresql/data
-            name: connessionidb
-      volumes:
-        - name: connessionidb
-          persistentVolumeClaim:
-            claimName: connessioni-claim
----          
+    app: sfingegram
+    service: postgres-enigmi
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -168,65 +422,72 @@ spec:
             port: 8080
           initialDelaySeconds: 15
           periodSeconds: 10
-
+      tolerations:
+      - key: node.kubernetes.io/not-ready
+        effect: NoExecute
+        tolerationSeconds: 0
+      - key: node.kubernetes.io/unreachable
+        effect: NoExecute
+        tolerationSeconds: 0
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: connessioni
+  name: enigmi
 spec:
-  replicas: 1
   selector:
-    matchLabels:
-      app: sfingegram
-      service: connessioni
-  template: 
-    metadata:
-      labels:
-        app: sfingegram
-        service: connessioni
-    spec:
-      containers:
-      - name: connessioni-container
-        image: sfingegram/connessioni-service
-        ports:
-        - containerPort: 8080
-        readinessProbe: 
-          httpGet: 
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 15
-          periodSeconds: 10
-
+    app: sfingegram
+    service: enigmi
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
 ---
-apiVersion: apps/v1
-kind: Deployment
+kind: PersistentVolume
+apiVersion: v1
 metadata:
-  name: enigmi-seguiti
+  name: postgres-pv-enigmi
+  labels:
+    type: local
+    app: pg-enigmi
 spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: sfingegram
-      service: enigmi-seguiti
-  template: 
-    metadata:
-      labels:
-        app: sfingegram
-        service: enigmi-seguiti
-    spec:
-      containers:
-      - name: enigmiseguiti-container
-        image: sfingegram/enigmi-seguiti-service
-        ports:
-        - containerPort: 8080
-        readinessProbe: 
-          httpGet: 
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 15
-          periodSeconds: 10
+  storageClassName: retain-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/data/enigmi"
+  claimRef:
+    namespace: sfingegram
+    name: enigmi-claim
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: enigmi-claim
+  labels:
+    app: pg-enigmi
+spec:
+  storageClassName: retain-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pg-enigmi-secret-config
+type: Opaque
+data:
+  dbname: c2ZpbmdlZ3JhbS1lbmlnbWk=
+  username: cG9zdGdyZXM=
+  password: cG9zdGdyZXM=
+---
+############################ENIGMI>
+#######################<APIGATEWAY
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -254,105 +515,13 @@ spec:
             port: 8080
           initialDelaySeconds: 15
           periodSeconds: 10
-
----
-# postgres-enigmi:
-#     restart: always
-#     env_file:
-#       - init_db_sfingegram_enigmi.env # configure postgres
-#     volumes:
-#       - database-enigmi:/var/lib/postgresql/data/ # persist data even if container shuts down
-#     networks:
-#       - net
-#     ports:
-#       - "5432"
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-enigmiseguiti
-spec:
-  selector:
-    app: sfingegram
-    service: postgres-enigmiseguiti
-  ports:
-  - protocol: TCP
-    port: 5432
-    targetPort: 5432
-  
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-enigmi
-spec:
-  selector:
-    app: sfingegram
-    service: postgres-enigmi
-  ports:
-  - protocol: TCP
-    port: 5432
-    targetPort: 5432
-  
----
-
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-connessioni
-spec:
-  selector:
-    app: sfingegram
-    service: postgres-connessioni
-  ports:
-  - protocol: TCP
-    port: 5432
-    targetPort: 5432
-  
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: enigmi
-spec:
-  selector:
-    app: sfingegram
-    service: enigmi
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: 8080
-  
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: connessioni
-spec:
-  selector:
-    app: sfingegram
-    service: connessioni
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: 8080
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: enigmi-seguiti
-spec:
-  selector:
-    app: sfingegram
-    service: enigmi-seguiti
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: 8080
-
+      tolerations:
+      - key: node.kubernetes.io/not-ready
+        effect: NoExecute
+        tolerationSeconds: 0
+      - key: node.kubernetes.io/unreachable
+        effect: NoExecute
+        tolerationSeconds: 0
 ---
 apiVersion: v1
 kind: Service
@@ -367,8 +536,6 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-#    nodePort: 32082
-###################
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -395,106 +562,6 @@ provisioner: docker.io/hostpath
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: postgres-pv-enigmi
-  labels:
-    type: local
-    app: pg-enigmi
-spec:
-  storageClassName: retain-storage
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/data/enigmi"
-  claimRef:
-    namespace: sfingegram
-    name: enigmi-claim
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: postgres-pv-enigmiseguiti
-  labels:
-    type: local
-    app: pg-enigmiseguiti
-spec:
-  storageClassName: retain-storage
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/data/enigmiseguiti"
-  claimRef:
-    namespace: sfingegram
-    name: enigmiseguiti-claim
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: postgres-pv-connessioni
-  labels:
-    type: local
-    app: pg-connessioni
-spec:
-  storageClassName: retain-storage
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/data/connessioni"
-  claimRef:
-    namespace: sfingegram
-    name: connessioni-claim
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: enigmi-claim
-  labels:
-    app: pg-enigmi
-spec:
-  storageClassName: retain-storage
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: enigmiseguiti-claim
-  labels:
-    app: pg-enigmiseguiti
-spec:
-  storageClassName: retain-storage
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: connessioni-claim
-  labels:
-    app: pg-connessioni
-spec:
-  storageClassName: retain-storage
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
----
-###################
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -510,7 +577,6 @@ kind: ClusterRoleBinding
 metadata:
   name: service-discovery-reader-binding
 subjects:
-# all service accounts in any namespace
 - kind: Group
   name: system:serviceaccounts
   apiGroup: ""
@@ -521,7 +587,6 @@ roleRef:
 
 ---
 # ###zookeeper
-#################
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -543,13 +608,6 @@ spec:
         image: wurstmeister/zookeeper
         ports:
         - containerPort: 2181
-#         readinessProbe: 
-#           httpGet: 
-#             path: /actuator/health
-#             port: 8080
-#           initialDelaySeconds: 15
-#           periodSeconds: 10
-
 ---
 apiVersion: v1
 kind: Service
@@ -563,8 +621,6 @@ spec:
     - protocol: TCP
       port: 2181
       targetPort: 2181
-
-##########################
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -598,8 +654,6 @@ spec:
               value: zookeeper:2181
             - name: KAFKA_CREATE_TOPICS
               value: "enigma-service-event-channel:1:1,connessione-con-autore-service-event-channel:1:1,connessione-con-tipo-service-event-channel:1:1"
-            # - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
-            #   value: 1
           ports:
             - containerPort: 9092
 ---
@@ -615,33 +669,3 @@ spec:
     - protocol: TCP
       port: 9092
       targetPort: 9092
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: pg-enigmi-secret-config
-type: Opaque
-data:
-  dbname: c2ZpbmdlZ3JhbS1lbmlnbWk=
-  username: cG9zdGdyZXM=
-  password: cG9zdGdyZXM=
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: pg-connessioni-secret-config
-type: Opaque
-data:
-  dbname: c2ZpbmdlZ3JhbS1jb25uZXNzaW9uaQ==
-  username: cG9zdGdyZXM=
-  password: cG9zdGdyZXM=
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: pg-enigmi-seguiti-secret-config
-type: Opaque
-data:
-  dbname: c2ZpbmdlZ3JhbS1lbmlnbWlzZWd1aXRp
-  username: cG9zdGdyZXM=
-  password: cG9zdGdyZXM=
