@@ -13,7 +13,7 @@ docker volume prune
 docker rmi $(docker images | grep '.*service')
 
 @Accesso al db sfingegram-enigmiseguiti
-psql --username=postgres --host=postgres_enigmiseguiti --dbname=sfingegram-enigmiseguiti
+psql --username=postgres --host=postgres-enigmiseguiti --dbname=sfingegram-enigmiseguiti
 
 winpty docker exec -it 109b8ee2a729 bash
 psql --host=database --username=postgres --dbname=sfingegram

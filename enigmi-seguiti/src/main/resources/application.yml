@@ -40,7 +40,7 @@ spring:
     username: postgres
     password: postgres
     platform: postgres
-    url: jdbc:postgresql://postgres_enigmiseguiti:5432/sfingegram-enigmiseguiti
+    url: jdbc:postgresql://postgres-enigmiseguiti:5432/sfingegram-enigmiseguiti
   jpa:
     database: POSTGRESQL
     #generate-ddl: true

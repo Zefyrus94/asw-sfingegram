@@ -7,7 +7,7 @@ networks:
       config:
         - subnet: 172.22.0.0/24
 services:
-  postgres_enigmi:
+  postgres-enigmi:
     image: "postgres" # use latest official postgres version
     restart: always
     env_file:
@@ -15,12 +15,9 @@ services:
     volumes:
       - ./database-enigmi:/var/lib/postgresql/data # persist data even if container shuts down
 #      - ./db:/docker-entrypoint-initdb.d/
-    networks:
-      - net
     ports:
       - "5432"
-  database_2:
-    container_name: "postgres_connessioni"
+  postgres-connessioni:
     image: "postgres" # use latest official postgres version
     env_file:
       - init_db_sfingegram_connessioni.env # configure postgres
@@ -30,11 +27,7 @@ services:
 #      - ./db:/docker-entrypoint-initdb.d/
     ports:
       - 5433:5432
-    networks:
-      - net
-  
-  database_3:
-    container_name: "postgres_enigmiseguiti"
+  postgres-enigmiseguiti:
     image: "postgres" # use latest official postgres version
     env_file:
       - init_db_sfingegram_enigmiseguiti.env # configure postgres
@@ -44,22 +37,16 @@ services:
 #      - ./db:/docker-entrypoint-initdb.d/
     ports:
       - 5434:5432
-    networks:
-      - net
   consul:
     container_name: "asw-consul"
     image: consul
     hostname: consul
     ports:
       - "8500:8500"
-    networks:
-      - net
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
-    networks:
-      - net
   kafka:
     #Couldn't resolve server kafka:9092 from bootstrap.servers as DNS resolution failed for kafka
     container_name: "kafka"
@@ -88,29 +75,21 @@ services:
 #      LOG4J_LOGGER_KAFKA_AUTHORIZER_LOGGER: DEBUG
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - net
   enigmi:
     build: ./enigmi
     image: enigmi-service
     depends_on:
       - consul 
-    networks:
-      - net
   connessioni:
     build: ./connessioni
     image: connessioni-service
     depends_on:
       - consul  
-    networks:
-      - net
   enigmi-seguiti:
     build: ./enigmi-seguiti
     image: enigmi-seguiti-service
     depends_on:
       - consul  
-    networks:
-      - net
   apigateway:
     build: ./api-gateway
     image: api-gateway-service
@@ -118,5 +97,3 @@ services:
     - "8080:8080"
     depends_on:
       - consul
-    networks:
-      - net
