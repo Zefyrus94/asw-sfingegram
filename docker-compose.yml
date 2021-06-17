@@ -20,7 +20,7 @@ services:
     env_file:
       - init_db_sfingegram_enigmi.env # configure postgres
     volumes:
-      - database-enigmi:/var/lib/postgresql/data/ # persist data even if container shuts down
+      - ./database-enigmi:/var/lib/postgresql/data/ # persist data even if container shuts down
 #      - ./db:/docker-entrypoint-initdb.d/
     networks:
       - net
@@ -33,7 +33,7 @@ services:
       - init_db_sfingegram_connessioni.env # configure postgres
     volumes:
       #docker volume inspect database-data
-      - database-connessioni:/var/lib/postgresql/data/ # persist data even if container shuts down
+      - ./database-connessioni:/var/lib/postgresql/data/ # persist data even if container shuts down
 #      - ./db:/docker-entrypoint-initdb.d/
     ports:
       - 5433:5432
@@ -47,7 +47,7 @@ services:
       - init_db_sfingegram_enigmiseguiti.env # configure postgres
     volumes:
       #docker volume inspect database-data
-      - database-enigmiseguiti:/var/lib/postgresql/data/ # persist data even if container shuts down
+      - ./database-enigmiseguiti:/var/lib/postgresql/data/ # persist data even if container shuts down
 #      - ./db:/docker-entrypoint-initdb.d/
     ports:
       - 5434:5432
@@ -77,6 +77,7 @@ services:
       - "9092:9092"
 #      - "9094:9094"
     environment:
+      KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       #KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-con-autore-service-event-channel:1:1,connessione-con-tipo-service-event-channel:1:1"
