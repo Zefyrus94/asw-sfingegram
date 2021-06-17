@@ -89,7 +89,7 @@
 #     spec:
 #       containers:
 #       - name: enigmiseguiti-container
-#         image: sfingegram/enigmi-seguiti-service
+#         image: sfingegram/enigmi-seguiti-service-v3
 #         ports:
 #         - containerPort: 8080
 #         readinessProbe: 
@@ -247,7 +247,7 @@
 #     spec:
 #       containers:
 #       - name: connessioni-container
-#         image: sfingegram/connessioni-service
+#         image: sfingegram/connessioni-service-v3
 #         ports:
 #         - containerPort: 8080
 #         readinessProbe: 
@@ -413,7 +413,7 @@ spec:
     spec:
       containers:
       - name: enigmi-container
-        image: sfingegram/enigmi-service-v2
+        image: sfingegram/enigmi-service-v3
         ports:
         - containerPort: 8080
         readinessProbe: 

@@ -3,3 +3,4 @@
 ### Vagrant ###
 .vagrant/
 downloads/
+database-*/
