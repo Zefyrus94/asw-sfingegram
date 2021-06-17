@@ -43,7 +43,7 @@ spring:
     database: POSTGRESQL
     #generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
 server: 
   port: ${PORT:${SERVER_PORT:0}}
