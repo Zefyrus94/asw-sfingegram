@@ -55,10 +55,10 @@ Seguendo la logica descritta nella consegna (disponibile al link: [consegna](htt
 ## Descrizione dell'architettura
 
 * Rispetto all'implementazione dell'applicazione utilizzando docker compose abbiamo eliminato la dipendenza da consul, lasciando a Kubernetes l'onere di gestire i servizi di loadbalacing e routing. Abbiamo di fatto quindi sostituito (nei file _build.gradle_ dei vari servizi) le dipendenze di spring cloud di consul con la dipendenza a kubernetes.
-* L'ambiente di esecuzione della applicazione è l'ambiente descritto nella [repository ufficiale del corso](https://github.com/aswroma3/asw/tree/master/environments/kube-cluster), il quale utilizza Vagrant e VirtualBox. Nella cartella *kube-cluster* è presente il vagrantfile dell'ambiente. E' composto da quattro nodi, un nodo dev, un nodo master e due nodi worker:
-  1. un nodo master con 2 giga di ram e due cpu;
-  2. due nodi worker con ciascuno 4 giga di ram e due cpu;
-  3. un nodo dev con 1 giga di ram e due cpu.
+* L'ambiente di esecuzione della applicazione è l'ambiente descritto nella [repository ufficiale del corso](https://github.com/aswroma3/asw/tree/master/environments/kube-cluster), il quale utilizza Vagrant e VirtualBox. Nella cartella *kube-cluster* è presente il Vagrantfile dell'ambiente. E' composto da quattro nodi, un nodo dev, un nodo master e due nodi worker:
+  1. un nodo master con 2 giga di ram e due vcpu;
+  2. due nodi worker con ciascuno 2 giga di ram e due vcpu;
+  3. un nodo dev con 1 giga di ram e due vcpu.
 
 * Le build dei singoli servizi sono pushate su Docker Hub (necessario perché vengano utilizzate per la costruzione dei pod al momento dell'avvio del cluster tramite Kubernetes).
   * Le immagini possono essere pushate attraverso lo script: `build-and-push-docker-images.sh`.
