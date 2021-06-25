@@ -27,7 +27,6 @@ services:
     ports:
       - 5432
   consul:
-    container_name: "asw-consul"
     image: consul
     hostname: consul
     ports:
@@ -37,7 +36,6 @@ services:
     ports:
       - "2181:2181"
   kafka:
-    container_name: "kafka"
     image: wurstmeister/kafka:latest
     depends_on:
       - "zookeeper"

@@ -91,4 +91,6 @@ Ed inoltre:
 
 * lo script `do-post-altre-connessioni.sh` aggiunge nuove connessioni
 
+Per scalare eseguire lo script `run-sfingegram-replicas.sh` (è possibile cambiare a piacimento il numero di repliche mediante l'opzione "--scale")
+
 Alla fine, l'applicazione può essere arrestata usando lo script `stop-sfingegram.sh`
