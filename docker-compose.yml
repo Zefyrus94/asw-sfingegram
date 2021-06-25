@@ -1,95 +1,77 @@
 version: '3'
 
-networks:
-  net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.22.0.0/24
 services:
   postgres-enigmi:
-    image: "postgres" # use latest official postgres version
+    image: "postgres"
     restart: always
     env_file:
-      - init_db_sfingegram_enigmi.env # configure postgres
+      - init_db_sfingegram_enigmi.env
     volumes:
-      - ./database-enigmi:/var/lib/postgresql/data # persist data even if container shuts down
-#      - ./db:/docker-entrypoint-initdb.d/
+      - ./data/database-enigmi:/var/lib/postgresql/data
     ports:
-      - "5432"
+      - 5432
   postgres-connessioni:
-    image: "postgres" # use latest official postgres version
+    image: "postgres"
     env_file:
-      - init_db_sfingegram_connessioni.env # configure postgres
+      - init_db_sfingegram_connessioni.env
     volumes:
-      #docker volume inspect database-data
-      - ./database-connessioni:/var/lib/postgresql/data # persist data even if container shuts down
-#      - ./db:/docker-entrypoint-initdb.d/
+      - ./data/database-connessioni:/var/lib/postgresql/data
     ports:
-      - 5433:5432
+      - 5432
   postgres-enigmiseguiti:
-    image: "postgres" # use latest official postgres version
+    image: "postgres"
     env_file:
-      - init_db_sfingegram_enigmiseguiti.env # configure postgres
+      - init_db_sfingegram_enigmiseguiti.env
     volumes:
-      #docker volume inspect database-data
-      - ./database-enigmiseguiti:/var/lib/postgresql/data # persist data even if container shuts down
-#      - ./db:/docker-entrypoint-initdb.d/
+      - ./data/database-enigmiseguiti:/var/lib/postgresql/data
     ports:
-      - 5434:5432
+      - 5432
   consul:
     container_name: "asw-consul"
     image: consul
     hostname: consul
     ports:
-      - "8500:8500"
+      - 8500
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
   kafka:
-    #Couldn't resolve server kafka:9092 from bootstrap.servers as DNS resolution failed for kafka
     container_name: "kafka"
     image: wurstmeister/kafka:latest
     depends_on:
       - "zookeeper"
     ports:
-      - "9092:9092"
-#      - "9094:9094"
+      - 9092
     environment:
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      #KAFKA_CREATE_TOPICS: "enigma-service-event-channel:1:1,connessione-con-autore-service-event-channel:1:1,connessione-con-tipo-service-event-channel:1:1"
       KAFKA_CREATE_TOPICS: "enigmi:4:1,connessioni:4:1"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-#      KAFKA_CREATE_TOPICS: "consumer-service-channel:1:1,restaurant-service-channel:1:1,order-service-channel:1:1"
-#      # HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
-#      # HOSTNAME_COMMAND: "route -n | awk '/UG[ \t]/{print $$2}'"
-#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-#      # KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
-#      # PORT_COMMAND: "docker port $$(hostname) 9092/tcp | cut -d: -f2
-#      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://10.11.1.188:9094
-#      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
-#      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-#      LOG4J_LOGGER_KAFKA_AUTHORIZER_LOGGER: DEBUG
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   enigmi:
     build: ./enigmi
     image: enigmi-service
+    restart: always
     depends_on:
       - consul 
+      - postgres-enigmi
   connessioni:
     build: ./connessioni
     image: connessioni-service
+    restart: always
     depends_on:
       - consul  
+      - postgres-connessioni
   enigmi-seguiti:
     build: ./enigmi-seguiti
     image: enigmi-seguiti-service
+    restart: always
     depends_on:
       - consul  
+      - postgres-enigmiseguiti
   apigateway:
     build: ./api-gateway
     image: api-gateway-service

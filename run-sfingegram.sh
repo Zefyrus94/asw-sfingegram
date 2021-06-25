@@ -11,9 +11,9 @@ if [ -z "$DOCKER_IMAGE_IDS" -o "$DOCKER_IMAGE_IDS" == " " ]; then
 else
 	docker rmi -f $DOCKER_IMAGE_IDS
 fi
-echo Ripulisco i volumi inutilizzati...
-echo
-docker volume prune -f
+# echo Ripulisco i volumi inutilizzati...
+# echo
+# docker volume prune -f
 echo Faccio la build
 echo
 gradle build
