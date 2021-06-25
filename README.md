@@ -55,20 +55,21 @@ Seguendo la logica descritta nella consegna (disponibile al link: [consegna](htt
   * In particolare, abbiamo aggiunto gli eventi *EnigmaCreatedEvent*, *ConnessioneConAutoreCreatedEvent*, *ConnessioneConTipoCreatedEvent*. Abbiamo creato un canale per il servizio enigmi e uno per il servizio connessioni. Quando i due servizi generano un evento lo trasmettono nel canale dedicato e il servizio *enigmi-seguiti* li cattura essendo iscritto ad entrambi questi canali.
 
 ## Esecuzione
+(gli script seguenti necessitano dei permessi di amministratore per essere eseguiti)
 
 Per eseguire questo progetto:
 
-* avviare Docker
+* installare e avviare docker (https://www.docker.com/)
 
-* eseguire lo script `start-sfingegram.sh`
+* eseguire lo script `run-sfingegram.sh`
 
-* per inizializzare le basi di dati con dei dati di esempio, eseguire gli script `do-init-enigmi.sh` e `do-init-connessioni.sh`
+* per inizializzare le basi di dati con dei dati di esempio, una volta che l'ambiente è in esecuzione, eseguire gli script `do-init-enigmi.sh` e `do-init-connessioni.sh`
 
 Sono anche forniti alcuni script di esempio:
 
 * lo script `run-curl-client.sh` esegue un insieme di interrogazioni di esempio
 
-* lo script `do-get-enigmi.sh` trova tutti gli enigmi
+* lo script `do-get-enigmi.sh Nome_Autore` trova tutti gli enigmi di un dato autore
 
 * lo script `do-get-enigma.sh` trova un enigma
 
