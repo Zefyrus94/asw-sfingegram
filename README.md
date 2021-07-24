@@ -42,7 +42,7 @@ The original application *Sfingegram* consists of the following microservices, e
   * exposes the service *connessioni* on path `/connessioni` - e.g. `GET /connessioni/connessioniconautori/{utente}`
   * exposes the service *enigmi-seguiti* on path `/enigmi-seguiti` - e.g. `GET /enigmi-seguiti/enigmiseguiti/{utente}`
 
-Following the logic described in the delivery (link: [consegna](http://cabibbo.inf.uniroma3.it/asw/progetti/asw-progetto-2021.pdf)) we added the following services:
+Following the logic described in the [delivery](http://cabibbo.inf.uniroma3.it/asw/progetti/asw-progetto-2021.pdf) we added the following services:
 
 * The service *consul*, running in a docker container.
 
