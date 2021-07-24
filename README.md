@@ -1,96 +1,96 @@
 # SFINGEGRAM
 
-Progetto del corso di Analisi e progettazione del software per l'anno accademico 2020-2021.
+Project of the Software Analysis and Design for the academic year 2020-2021
 
-## Descrizione di questo progetto
+## Description of this project
 
-Questo progetto contiene il il codice di *Sfingegram*, un semplice social network per la condivisione di enigmi (ovvero, giochi enigmistici).
-Gli utenti del sistema possono pubblicare degli enigmi.
-Possono poi seguire gli enigmi di specifici autori o di specifici tipi.  
-Quando un utente accede alla pagina degli enigmi che segue, gli vengono mostrati gli enigmi degli autori e dei tipi che segue.
+This project contains the code of *Sfingegram*, a simple social network for sharing puzzle games
+System users can publish their puzzles.
+They can also follow the puzzles of specific authors or specific types.
+When a user gets to the page of the puzzles they follow, they're shown the puzzles of the authors and types he follows.
 
-L'applicazione originale *Sfingegram* è composta dai seguenti microservizi, i quali girano ognuno nel proprio container docker:
+The original application *Sfingegram* consists of the following microservices, each running in its own docker container:
 
-* Il servizio *enigmi* gestisce gli enigmi.
-  Ogni enigma ha un autore, un tipo, un titolo, un testo (che può essere composta da più righe) e una soluzione (che può essere composta da più parole).
-  Operazioni:
-  * `POST /enigmi` aggiunge un nuovo enigma (dati autore, tipo, titolo, testo e soluzione)
-  * `GET /enigmi/{id}` trova un enigma, dato l'id
-  * `GET /enigmi/{id}/soluzione` trova la soluzione di un enigma, dato l'id
-  * `GET /enigmi` trova tutti gli enigmi (senza la soluzione)
-  * `GET /cercaenigmi/autore/{autore}` trova tutti gli enigmi di un certo autore (senza soluzione)
-  * `GET //cercaenigmi/autori/{elenco-di-autori}` trova tutti gli enigmi di un insieme di autori (senza soluzione)
-  * `GET /cercaenigmi/tipo/{tipo}` trova tutti gli enigmi di un certo tipo (senza soluzione)
-  * `GET /cercaenigmi/tipi/{elenco-di-tipi}` trova tutti gli enigmi di un insieme di tipi (senza soluzione)
-  
-* Il servizio *connessioni* gestisce le connessioni degli utenti, ovvero gli autori e i tipi di enigmi seguiti dagli utenti.
-  Le connessioni sono delle coppie utente-autore oppure utente-tipo, in cui gli autori sono in genere altri utenti del sistema.
-  Operazioni:
-  * `POST /connessioniconautori` aggiunge una nuova connessione utente-autore (dati utente e autore)
-  * `GET /connessioniconautori` trova tutte le connessioni utente-autore
-  * `GET /connessioniconautori/{utente}` trova tutte le connessioni utente-autore di un certo utente
-  * `POST /connessionicontipi` aggiunge una nuova connessione utente-tipo (dati utente e tipo)
-  * `GET /connessionicontipi` trova tutte le connessioni utente-tipo
-  * `GET /connessionicontipi/{utente}` trova tutte le connessioni utente-tipo di un certo utente
+* The service *enigmi* manages the puzzles.
+  Every puzzle has an author, a type, a title, a text (which can consist of multiple lines) and a solution (which can consist of multiple words).
+  Operations:
+  * `POST /enigmi` adds a new puzzle (given author, type, title, text and solution)
+  * `GET /enigmi/{id}` finds a puzzle, given the id
+  * `GET /enigmi/{id}/soluzione` finds the solution for a puzzle, given the id
+  * `GET /enigmi` finds all the puzzles (without the solution)
+  * `GET /cercaenigmi/autore/{autore}` finds all the puzzles of an author (without solution)
+  * `GET //cercaenigmi/autori/{elenco-di-autori}` finds all the puzzles of a set of authors (without solution)
+  * `GET /cercaenigmi/tipo/{tipo}` finds all the puzzles of a type (without solution)
+  * `GET /cercaenigmi/tipi/{elenco-di-tipi}` finds all the puzzles of a set of types (without solution)
 
-* Il servizio *enigmi-seguiti* consente a un utente di trovare gli enigmi di tutti gli autori e di tutti i tipi che segue.
-  Operazioni:
-  * `GET /enigmiseguiti/{utente}` trova tutti gli enigmi seguiti da un certo utente, ovvero gli enigmi scritti da autori seguiti da quell'utente o di tipi di enigmi seguiti da quell'utente (gli enigmi sono senza soluzione)
-  
-* Il servizio *api-gateway* (esposto sulla porta *8080*) è l'API gateway dell'applicazione che:
-  * espone il servizio *enigmi* sul path `/enigmi` - ad esempio, `GET /enigmi/enigmi`
-  * espone il servizio *connessioni* sul path `/connessioni` - ad esempio, `GET /connessioni/connessioniconautori/{utente}`
-  * espone il servizio *enigmi-seguiti* sul path `/enigmi-seguiti` - ad esempio, `GET /enigmi-seguiti/enigmiseguiti/{utente}`
+* The service *connessioni* manages the user connections, that is the authors and types followed by the users
+  Connections are user-author or user-type pairs, where the authors are in general other system users
+  Operations:
+  * `POST /connessioniconautori` adds a new connection user-author (given user and author)
+  * `GET /connessioniconautori` finds all the connections user-author
+  * `GET /connessioniconautori/{utente}` finds all the connections user-author of a given user
+  * `POST /connessionicontipi` adds a new connection user-type (given user and type)
+  * `GET /connessionicontipi` finds all the connections user-type
+  * `GET /connessionicontipi/{utente}` finds all the connections user-type of a given user
 
-Seguendo la logica descritta nella consegna (disponibile al link: [consegna](http://cabibbo.inf.uniroma3.it/asw/progetti/asw-progetto-2021.pdf)) abbiamo aggiunto i seguenti servizi:
+* The service *enigmi-seguiti* allows a user to find the puzzles of all the authors/types he follows.
+  Operations:
+  * `GET /enigmiseguiti/{utente}` finds all the puzzles followed by an author, that is the puzzles written by authors followed by that user or the puzzles having the type of the ones followed by that user (the puzzles are without solution)
 
-* Il servizio *consul*, eseguito su un proprio container docker.
+* The service *api-gateway* (exposed on port *8080*) is the API gateway of the application that:
+  * exposes the service *enigmi* on path `/enigmi` - e.g. `GET /enigmi/enigmi`
+  * exposes the service *connessioni* on path `/connessioni` - e.g. `GET /connessioni/connessioniconautori/{utente}`
+  * exposes the service *enigmi-seguiti* on path `/enigmi-seguiti` - e.g. `GET /enigmi-seguiti/enigmiseguiti/{utente}`
 
-* Tre basi di dati _PostgresSQL_ indipendenti che girano su altrettanti container docker. Nelle tre basi di dati vengono salvate le informazioni relative a *enigmi*, *enigmi-seguiti* e *connessioni*.
-  * nel database di *enigmi* è presente una sola tabella in cui vengono salvate le informazioni relativi agli enigmi.
+Following the logic described in the delivery (link: [consegna](http://cabibbo.inf.uniroma3.it/asw/progetti/asw-progetto-2021.pdf)) we added the following services:
+
+* The service *consul*, running in a docker container.
+
+* 3 independent _PostgresSQL_ data bases, each running in a docker container. Nelle tre basi di dati vengono salvate le informazioni relative a *enigmi*, *enigmi-seguiti* e *connessioni*.
+  * nel database di *enigmi* è presente una sola tabella in cui vengono salvate le informazioni relativi apuzzles.
   * nel database di *connessioni* sono presenti due tabelle in cui vengono salvate le connessioni tra utente e autore e tra utente e tipo.
   * nel database di *enigmi-seguiti* sono presenti quattro tabelle, tre di esse sono le replicazioni delle tre tabelle di *enigmi* e *connessioni* mentre la quarta ha tutte le informazioni necessarie per rispondere direttamente ad una richiesta api 'GET /enigmiseguiti/{utente}' senza la necessità di interrogare le altre tabelle o servizi.
 
 * Abbiamo aggiunto i servizi di *Zookeeper* e *Kafka* per realizzare la comunicazione asincrona e gestire gli eventi prodotti da *enigmi* e *connessioni* e consumati da *enigmi-seguiti*.
-  * In particolare, abbiamo aggiunto gli eventi *EnigmaCreatedEvent*, *ConnessioneConAutoreCreatedEvent*, *ConnessioneConTipoCreatedEvent*. Abbiamo creato un canale per il servizio enigmi e uno per il servizio connessioni. Quando i due servizi generano un evento lo trasmettono nel canale dedicato e il servizio *enigmi-seguiti* li cattura essendo iscritto ad entrambi questi canali.
+  * In particolare, abbiamo aggiunto gli eventi *EnigmaCreatedEvent*, *ConnessioneConAutoreCreatedEvent*, *ConnessioneConTipoCreatedEvent*. Abbiamo creato un canale per the service enigmi e uno per the service connessioni. Quando i due servizi generano un evento lo trasmettono nel canale dedicato e the service *enigmi-seguiti* li cattura essendo iscritto ad entrambi questi canali.
 
-## Esecuzione
-(gli script seguenti necessitano dei permessi di amministratore per essere eseguiti)
+## Execution
+(the following scripts need administrator permissions to be run)
 
-Per eseguire questo progetto:
+To run this project:
 
-* installare e avviare docker (https://www.docker.com/)
+* install and run docker (https://www.docker.com/)
 
-* eseguire lo script `run-sfingegram.sh`
+* run the script `run-sfingegram.sh`
 
-* per inizializzare le basi di dati con dei dati di esempio, una volta che l'ambiente è in esecuzione, eseguire gli script `do-init-enigmi.sh` e `do-init-connessioni.sh`
+* to initialize the data tables, run the scripts `do-init-enigmi.sh` and `do-init-connessioni.sh` (when the application is up)
 
-Sono anche forniti alcuni script di esempio:
+Some sample scripts are also provided
 
-* lo script `run-curl-client.sh` esegue un insieme di interrogazioni di esempio
+* the script `run-curl-client.sh` esegue un insieme di interrogazioni di esempio
 
-* lo script `do-get-enigmi.sh Nome_Autore` trova tutti gli enigmi di un dato autore
+* the script `do-get-enigmi.sh Nome_Autore` finds all the puzzles of an author
 
-* lo script `do-get-enigma.sh` trova un enigma
+* the script `do-get-enigma.sh` find a puzzle
 
-* lo script `do-get-enigmi-di-autore.sh` trova tutti gli enigmi di un certo autore
+* the script `do-get-enigmi-di-autore.sh` finds all the puzzles of an author
 
-* lo script `do-get-enigmi-di-autori.sh` trova tutti gli enigmi di un insieme di autori  
+* the script `do-get-enigmi-di-autori.sh` finds all the puzzles of a set of authors 
 
-* lo script `do-get-enigmi-di-tipo.sh` trova tutti gli enigmi di un certo tipo  
+* the script `do-get-enigmi-di-tipo.sh` finds all the puzzles of a type 
 
-* lo script `do-get-enigmi-di-tipi.sh` trova tutti gli enigmi di un insieme di tipi  
+* the script `do-get-enigmi-di-tipi.sh` finds all the puzzles of a set of types
 
-* lo script `do-get-connessioni.sh` trova tutte le connessioni
+* the script `do-get-connessioni.sh` finds all the connections
 
-* lo script `do-get-enigmi-seguiti.sh` trova tutti gli enigmi seguiti da un certo utente
+* the script `do-get-enigmi-seguiti.sh` finds all the puzzles followed by an author
 
-Ed inoltre:
+Moreover:
 
-* lo script `do-post-altri-enigmi.sh` aggiunge nuovi enigmi
+* the script `do-post-altri-enigmi.sh` adds new puzzles
 
-* lo script `do-post-altre-connessioni.sh` aggiunge nuove connessioni
+* the script `do-post-altre-connessioni.sh` adds new connections
 
-Per scalare eseguire lo script `run-sfingegram-replicas.sh` (è possibile cambiare a piacimento il numero di repliche mediante l'opzione "--scale")
+In order to scale, run the script `run-sfingegram-replicas.sh` (it's possible to change the number of replicas at will through the option "--scale")
 
-Alla fine, l'applicazione può essere arrestata usando lo script `stop-sfingegram.sh`
+Finally, the application can be stopped through the script `stop-sfingegram.sh`
