@@ -5,6 +5,7 @@ Project of the Software Analysis and Design course for the academic year 2020-20
 ## Description of this project
 
 This project contains the code of *Sfingegram*, a simple social network for sharing puzzle games
+
 System users can publish their puzzles.
 They can also follow the puzzles of specific authors or specific types.
 When a user gets to the page of the puzzles they follow, they're shown the puzzles of the authors and types he follows.
