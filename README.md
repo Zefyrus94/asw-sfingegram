@@ -1,6 +1,6 @@
 # SFINGEGRAM
 
-Project of the Software Analysis and Design for the academic year 2020-2021
+Project of the Software Analysis and Design course for the academic year 2020-2021
 
 ## Description of this project
 
