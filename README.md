@@ -47,13 +47,13 @@ Following the logic described in the [delivery](http://cabibbo.inf.uniroma3.it/a
 
 * The service *consul*, running in a docker container.
 
-* 3 independent _PostgresSQL_ data bases, each running in a docker container. Nelle tre basi di dati vengono salvate le informazioni relative a *enigmi*, *enigmi-seguiti* e *connessioni*.
-  * nel database di *enigmi* è presente una sola tabella in cui vengono salvate le informazioni relativi apuzzles.
-  * nel database di *connessioni* sono presenti due tabelle in cui vengono salvate le connessioni tra utente e autore e tra utente e tipo.
-  * nel database di *enigmi-seguiti* sono presenti quattro tabelle, tre di esse sono le replicazioni delle tre tabelle di *enigmi* e *connessioni* mentre la quarta ha tutte le informazioni necessarie per rispondere direttamente ad una richiesta api 'GET /enigmiseguiti/{utente}' senza la necessità di interrogare le altre tabelle o servizi.
+* 3 independent _PostgresSQL_ data bases, each running in a docker container. Information about *enigmi*, *enigmi-seguiti* and *connessioni* are stored in the data bases.
+  * database *enigmi* consists of just one table with information about puzzles.
+  * database *connessioni* consists of 2 tables relative to the connections user-author and user-type.
+  * database *enigmi-seguiti* consists of 4 tables, 3 of which are copies of the tables *enigmi* and *connessioni* and another one with all the information to answer a request to 'GET /enigmiseguiti/{utente}' without the need to query the other tables and services.
 
-* Abbiamo aggiunto i servizi di *Zookeeper* e *Kafka* per realizzare la comunicazione asincrona e gestire gli eventi prodotti da *enigmi* e *connessioni* e consumati da *enigmi-seguiti*.
-  * In particolare, abbiamo aggiunto gli eventi *EnigmaCreatedEvent*, *ConnessioneConAutoreCreatedEvent*, *ConnessioneConTipoCreatedEvent*. Abbiamo creato un canale per the service enigmi e uno per the service connessioni. Quando i due servizi generano un evento lo trasmettono nel canale dedicato e the service *enigmi-seguiti* li cattura essendo iscritto ad entrambi questi canali.
+* We added the services *Zookeeper* and *Kafka* for the asynchronous communication and manage the events produced by *enigmi* and *connessioni* and consumed by *enigmi-seguiti*.
+  * In particular, we added the events *EnigmaCreatedEvent*, *ConnessioneConAutoreCreatedEvent*, *ConnessioneConTipoCreatedEvent*. We use a channel for the service enigmi and another one for the service connessioni. When the two serviceces generate an event they write it to the dedicated channel and the service *enigmi-seguiti* read and manages it as a subscriber of both these channels.
 
 ## Execution
 (the following scripts need administrator permissions to be run)
@@ -68,7 +68,7 @@ To run this project:
 
 Some sample scripts are also provided
 
-* the script `run-curl-client.sh` esegue un insieme di interrogazioni di esempio
+* the script `run-curl-client.sh` runs some example queries
 
 * the script `do-get-enigmi.sh Nome_Autore` finds all the puzzles of an author
 
